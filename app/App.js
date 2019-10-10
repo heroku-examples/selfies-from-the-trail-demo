@@ -1,21 +1,20 @@
-import React from 'react'
-
-const id =
-  Math.random()
-    .toString(36)
-    .substring(2, 15) +
-  Math.random()
-    .toString(36)
-    .substring(2, 15)
+import React, { useState } from 'react'
 
 const App = ({ ws }) => {
+  const [text, setText] = useState('')
+
   const sendMessage = () => {
-    const data = JSON.stringify({ date: new Date(), id })
-    ws.send(data)
+    ws.send(JSON.stringify({ created_at: new Date(), text }))
   }
 
   return (
     <div>
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Text"
+      />
       <button onClick={sendMessage}>Send</button>
     </div>
   )

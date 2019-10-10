@@ -9,6 +9,7 @@
     "@hapi/inert": "^5.1.2",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
+    "dotenv": "^8.1.0",
     "file-loader": "^4.2.0",
     "getconfig": "^4.5.0",
     "no-kafka": "^3.4.3",
@@ -71,7 +72,7 @@
   },
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development bin/dev",
+    "dev": "NODE_ENV=development node server.js",
     "eslint": "eslint --fix .",
     "lint": "npm run eslint && npm run prettier:list",
     "prettier": "prettier --write '**/*.{js,md,css,json,scss}'",

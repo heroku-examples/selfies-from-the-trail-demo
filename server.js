@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const Hapi = require('@hapi/hapi')
 const config = require('getconfig')
 const path = require('path')
@@ -11,6 +13,7 @@ const createLogger = require('./src/logger')
 const logger = createLogger('server')
 
 const kafkaProducer = new Kafka.Producer({
+  clientId: 'kafka-producer',
   connectionString: config.kafka.url
 })
 
@@ -54,7 +57,7 @@ async function start() {
   await kafkaProducer.init()
   wsServer.on('connection', (ws) => {
     ws.on('message', (message) => {
-      logger.info('send kafka message', config.kafka.submissionTopic, message)
+      logger.info('Send kafka message', config.kafka.submissionTopic, message)
       kafkaProducer.send({
         topic: config.kafka.submissionTopic,
         message: {

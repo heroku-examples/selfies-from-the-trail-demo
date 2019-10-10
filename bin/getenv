@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
+APP=$1
+if [ -z "$APP" ]
+then
+  APP=""
+else
+  APP="-a ${APP}"
+fi
+
+touch ./.env
+
+echo "KAFKA_URL=$(heroku config:get KAFKA_URL $APP)" >> ./.env
+echo "KAFKA_PREFIX=$(heroku config:get KAFKA_PREFIX $APP)" >> ./.env
+echo "KAFKA_CLIENT_CERT=\"$(heroku config:get KAFKA_CLIENT_CERT $APP | awk '{printf "%s\\n", $0}')\"" >> ./.env
+echo "KAFKA_CLIENT_CERT_KEY=\"$(heroku config:get KAFKA_CLIENT_CERT_KEY $APP | awk '{printf "%s\\n", $0}')\"" >> ./.env
