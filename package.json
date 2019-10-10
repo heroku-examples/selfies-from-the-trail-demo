@@ -76,6 +76,6 @@
     "lint": "npm run eslint && npm run prettier:list",
     "prettier": "prettier --write '**/*.{js,md,css,json,scss}'",
     "prettier:list": "prettier --list-different '**/*.{js,md,css,json,scss}'",
-    "start": "NODE_ENV=production node server.js"
+    "start": "node server.js"
   }
 }

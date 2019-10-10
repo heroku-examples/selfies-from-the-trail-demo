@@ -1,5 +1,5 @@
 exports.index = {
-  handler: async (req, h) => {
+  handler: async () => {
     return 'test'
   }
 }

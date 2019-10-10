@@ -11,7 +11,6 @@ const id =
 const App = ({ ws }) => {
   const sendMessage = () => {
     const data = JSON.stringify({ date: new Date(), id })
-    console.log(data)
     ws.send(data)
   }
 
