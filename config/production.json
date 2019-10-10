@@ -1,0 +1,5 @@
+{
+  "hapi": {
+    "port": "${PORT}::number"
+  }
+}

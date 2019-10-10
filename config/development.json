@@ -1,0 +1,6 @@
+{
+  "hapi": {
+    "host": "localhost",
+    "port": 8090
+  }
+}

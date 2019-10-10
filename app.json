@@ -1,0 +1,24 @@
+{
+  "name": "Pure Heroku Demo Attendee",
+  "description": "",
+  "repository": "https://github.com/andyet/pure-heroku-demo-attendee",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "KAFKA_URL": {
+      "description": "The url of the Kafka instance of the demo app.",
+      "required": true
+    },
+    "KAFKA_CLIENT_CERT": {
+      "description": "The client certificate of the Kafka instance of the demo app.",
+      "required": true
+    },
+    "KAFKA_CLIENT_CERT_KEY": {
+      "description": "The client certificate key of the Kafka instance of the demo app.",
+      "required": true
+    }
+  }
+}
