@@ -12,6 +12,10 @@
       "description": "The url of the Kafka instance of the demo app.",
       "required": true
     },
+    "KAFKA_PREFIX": {
+      "description": "The prefix of the Kafka instance of the demo app.",
+      "required": true
+    },
     "KAFKA_CLIENT_CERT": {
       "description": "The client certificate of the Kafka instance of the demo app.",
       "required": true
