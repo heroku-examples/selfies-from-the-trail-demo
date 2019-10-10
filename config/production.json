@@ -1,5 +1,5 @@
 {
   "hapi": {
-    "port": "${PORT}::number"
+    "port": "$PORT::number"
   }
 }

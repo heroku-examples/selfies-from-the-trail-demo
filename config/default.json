@@ -1,6 +1,6 @@
 {
   "kafka": {
-    "url": "${KAFKA_URL}",
+    "url": "$KAFKA_URL",
     "submissionTopic": "${KAFKA_PREFIX}submission-app"
   }
 }
