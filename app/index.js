@@ -3,11 +3,8 @@ import ReactDOM from 'react-dom'
 import ReconnectingWebSocket from 'reconnecting-websocket'
 import App from './App'
 
-const wsUrl = new URL(window.location.href)
-wsUrl.protocol = 'ws'
-wsUrl.port = +wsUrl.port + 1
-
-const ws = new ReconnectingWebSocket(wsUrl.toString(), null, {
+const wsUrl = `ws${window.location.href.match(/^http(s?:\/\/.*)\/.*$/)[1]}`
+const ws = new ReconnectingWebSocket(wsUrl, null, {
   reconnectInterval: 1000,
   reconnectDecay: 1
 })

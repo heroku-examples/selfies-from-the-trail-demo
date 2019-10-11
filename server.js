@@ -12,27 +12,26 @@ const createLogger = require('./src/logger')
 
 const logger = createLogger('server')
 
-const kafkaProducer = new Kafka.Producer({
+const kafkaConfig = {
   clientId: 'kafka-producer',
   connectionString: config.kafka.url
-})
+}
+logger.info('Kafka config', JSON.stringify(kafkaConfig))
+const kafkaProducer = new Kafka.Producer(kafkaConfig)
 
-const server = new Hapi.Server(
-  Object.assign(
-    {
-      routes: {
-        files: {
-          relativeTo: path.join(__dirname, 'public')
-        }
+const hapiConfig = Object.assign(
+  {
+    routes: {
+      files: {
+        relativeTo: path.join(__dirname, 'public')
       }
-    },
-    config.hapi
-  )
+    }
+  },
+  config.hapi
 )
-
-const wsServerConfig = { port: config.hapi.port + 1 }
-const wsServer = new WebSocket.Server(wsServerConfig)
-logger.info('ws server config', wsServerConfig)
+logger.info('Hapi config', JSON.stringify(hapiConfig))
+const server = new Hapi.Server(hapiConfig)
+const wsServer = new WebSocket.Server({ server: server.listener })
 
 async function start() {
   await server.register({

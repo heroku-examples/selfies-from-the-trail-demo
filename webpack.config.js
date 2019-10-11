@@ -1,11 +1,15 @@
 const webpack = require('webpack')
+const config = require('getconfig')
+
+const isDev = config.getconfig.isDev
 
 module.exports = {
-  stats: { assets: false },
   entry: {
-    app: ['./app/index.js', 'webpack-hot-middleware/client']
+    app: ['./app/index.js', isDev && 'webpack-hot-middleware/client'].filter(
+      Boolean
+    )
   },
-  mode: 'development',
+  mode: isDev ? 'development' : 'production',
   module: {
     rules: [
       {
@@ -30,5 +34,5 @@ module.exports = {
       }
     ]
   },
-  plugins: [new webpack.HotModuleReplacementPlugin()]
+  plugins: [isDev && new webpack.HotModuleReplacementPlugin()].filter(Boolean)
 }
