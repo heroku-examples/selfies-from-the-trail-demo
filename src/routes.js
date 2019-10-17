@@ -2,9 +2,9 @@ const controllers = require('./controllers')
 
 module.exports = [
   {
-    method: 'GET',
-    path: '/api/test',
-    config: controllers.index
+    method: 'POST',
+    path: '/api/submit',
+    config: controllers.submit
   },
   {
     method: 'GET',
