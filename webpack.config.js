@@ -30,7 +30,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'url-loader',
         options: {
-          limit: 10000,
+          limit: 0,
           name: '[hash]-[name].[ext]'
         }
       }

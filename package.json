@@ -80,6 +80,7 @@
     "dev": "NODE_ENV=development node server.js",
     "eslint": "eslint --fix .",
     "lint": "npm run eslint && npm run prettier:list",
+    "nodemon": "nodemon --exec 'npm run dev' -e 'js json' --ignore app",
     "prettier": "prettier --write '**/*.{js,md,css,json,scss}'",
     "prettier:list": "prettier --list-different '**/*.{js,md,css,json,scss}'",
     "start": "node server.js"

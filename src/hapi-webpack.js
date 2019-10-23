@@ -1,27 +1,15 @@
 const Pack = require('../package.json')
-const Path = require('path')
 const Webpack = require('webpack')
+const Path = require('path')
 const WebpackDevMiddleware = require('webpack-dev-middleware')
 const WebpackHotMiddleware = require('webpack-hot-middleware')
 
 function register(server, options) {
-  // Define variables
-  let config = {}
-  let compiler
-
-  // Require config from path
-  if (typeof options === 'string') {
-    const configPath = Path.resolve(process.cwd(), options)
-    config = require(configPath)
-    compiler = new Webpack(config)
-  } else {
-    config = options
-    compiler = config.compiler
-  }
+  const compiler = Webpack(require(options.config || '../webpack.config.js'))
 
   // Create middlewares
-  const webpackDevMiddleware = WebpackDevMiddleware(compiler, config.assets)
-  const webpackHotMiddleware = WebpackHotMiddleware(compiler, config.hot)
+  const webpackDevMiddleware = WebpackDevMiddleware(compiler, options.assets)
+  const webpackHotMiddleware = WebpackHotMiddleware(compiler, options.hot)
 
   // Handle webpackDevMiddleware
   server.ext({
