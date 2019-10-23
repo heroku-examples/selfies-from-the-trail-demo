@@ -57,6 +57,32 @@ function register(server, options) {
     }
   })
 
+  server.ext({
+    type: 'onPreResponse',
+    method: async (request, h) => {
+      // This serves the html webpack plugins build html file for all fallback urls
+      if (
+        // Skip non-404 errors since those are probably errors in api routes
+        (request.response.isBoom &&
+          request.response.output.statusCode !== 404) ||
+        // Skip routes that are already a fallback path
+        (request.route && request.route.path !== '/{p*}')
+      ) {
+        return h.continue
+      }
+
+      const filename = Path.join(compiler.outputPath, 'index.html')
+      const result = await new Promise((resolve, reject) => {
+        compiler.outputFileSystem.readFile(filename, (error, res) => {
+          if (error) reject(error)
+          resolve(res)
+        })
+      })
+
+      return h.response(result).type('text/html')
+    }
+  })
+
   // Expose compiler
   server.expose({ compiler })
 }

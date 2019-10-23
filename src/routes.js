@@ -1,3 +1,4 @@
+const config = require('getconfig')
 const controllers = require('./controllers')
 
 module.exports = [
@@ -6,15 +7,17 @@ module.exports = [
     path: '/api/submit',
     config: controllers.submit
   },
-  {
-    method: 'GET',
-    path: '/{param*}',
-    handler: {
-      directory: {
-        path: '.',
-        redirectToSlash: true,
-        index: true
+  config.getconfig.isDev
+    ? null
+    : {
+        method: 'GET',
+        path: '/{param*}',
+        handler: {
+          directory: {
+            path: '.',
+            redirectToSlash: true,
+            index: true
+          }
+        }
       }
-    }
-  }
-]
+].filter(Boolean)

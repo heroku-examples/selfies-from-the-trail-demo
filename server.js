@@ -21,10 +21,22 @@ const kafkaProducer = new Kafka.Producer(kafkaConfig)
 
 const hapiConfig = Object.assign(
   {
+    tls:
+      // getUserMedia requires https on all non-localhost domains so if we're testing
+      // locally on our local ip then we need local certificates
+      // openssl req -nodes -new -x509 -keyout key.pem -out cert.pem
+      config.getconfig.isDev && config.hapi.host !== 'localhost'
+        ? {
+            key: require('fs').readFileSync('key.pem'),
+            cert: require('fs').readFileSync('cert.pem')
+          }
+        : null,
     routes: {
-      files: {
-        relativeTo: path.join(__dirname, 'public')
-      }
+      files: config.getconfig.isDev
+        ? {}
+        : {
+            relativeTo: path.join(__dirname, 'dist')
+          }
     }
   },
   config.hapi
@@ -34,24 +46,20 @@ const server = new Hapi.Server(hapiConfig)
 const wsServer = new WebSocket.Server({ server: server.listener })
 
 async function start() {
-  await server.register({
-    plugin: webpackPlugin,
-    options: {
-      compiler: webpack(require('./webpack.config.js')),
-      dev: {
-        // See https://github.com/webpack/webpack-dev-middleware
-        historyApiFallback: true,
-        methods: ['GET'],
-        index: 'index.html',
-        publicPath: '/',
-        quiet: false
-      },
-      hot: {
-        // See https://github.com/glenjamin/webpack-hot-middleware
-        name: pack.name
+  if (config.getconfig.isDev) {
+    await server.register({
+      plugin: webpackPlugin,
+      options: {
+        compiler: webpack(require('./webpack.config.js')),
+        dev: {
+          publicPath: '/'
+        },
+        hot: {
+          name: pack.name
+        }
       }
-    }
-  })
+    })
+  }
 
   await kafkaProducer.init()
   wsServer.on('connection', (ws) => {
@@ -68,6 +76,12 @@ async function start() {
   })
 
   await server.register(require('@hapi/inert'))
+  await server.register({
+    plugin: require('hapi-pino'),
+    options: {
+      prettyPrint: config.getconfig.isDev
+    }
+  })
   server.route(require('./src/routes'))
 
   server.start()

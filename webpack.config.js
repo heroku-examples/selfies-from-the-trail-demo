@@ -1,15 +1,17 @@
 const webpack = require('webpack')
-const config = require('getconfig')
-
-const isDev = config.getconfig.isDev
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
+  output: {
+    publicPath: '/'
+  },
   entry: {
-    app: ['./app/index.js', isDev && 'webpack-hot-middleware/client'].filter(
+    app: ['./app/index.js', !isProd && 'webpack-hot-middleware/client'].filter(
       Boolean
     )
   },
-  mode: isDev ? 'development' : 'production',
+  mode: isProd ? 'production' : 'development',
   module: {
     rules: [
       {
@@ -24,7 +26,7 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        test: /\.(png|jpe?g|gif|svg|ttf|eot|woff)(\?.*)?$/,
         exclude: /node_modules/,
         loader: 'url-loader',
         options: {
@@ -34,5 +36,11 @@ module.exports = {
       }
     ]
   },
-  plugins: [isDev && new webpack.HotModuleReplacementPlugin()].filter(Boolean)
+  plugins: [
+    !isProd && new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'Pure Heroku Demo',
+      template: 'app/index.html'
+    })
+  ].filter(Boolean)
 }

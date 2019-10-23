@@ -1,0 +1,176 @@
+@font-face {
+  font-family: BentonSans;
+  font-style: normal;
+  font-weight: 300;
+  src: url('../fonts/bentonsans/bentonsans-book.eot?#iefix')
+      format('embedded-opentype'),
+    url('../fonts/bentonsans/bentonsans-book.woff') format('woff'),
+    url('../fonts/bentonsans/bentonsans-book.ttf') format('truetype'),
+    url('../fonts/bentonsans/bentonsans-book.svg#BentonSans') format('svg');
+}
+
+@font-face {
+  font-family: BentonSans;
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/bentonsans/bentonsans-regular.eot?#iefix')
+      format('embedded-opentype'),
+    url('../fonts/bentonsans/bentonsans-regular.woff') format('woff'),
+    url('../fonts/bentonsans/bentonsans-regular.ttf') format('truetype'),
+    url('../fonts/bentonsans/bentonsans-regular.svg#BentonSans') format('svg');
+}
+
+@font-face {
+  font-family: BentonSans;
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/bentonsans/bentonsans-medium.eot?#iefix')
+      format('embedded-opentype'),
+    url('../fonts/bentonsans/bentonsans-medium.woff') format('woff'),
+    url('../fonts/bentonsans/bentonsans-medium.ttf') format('truetype'),
+    url('../fonts/bentonsans/bentonsans-medium.svg#BentonSans') format('svg');
+}
+
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #0a222e;
+  background-image: linear-gradient(
+    to bottom,
+    #001432 0%,
+    #0b4472 60%,
+    #1679b7 100%
+  );
+  font-family: 'BentonSans', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: white;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+.landian-list {
+  max-width: 100vw;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  position: relative;
+  overflow: scroll;
+  display: flex;
+}
+
+.landian-list .landian img {
+  height: 250px;
+}
+
+.landian {
+  position: relative;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+.pagination a {
+  width: 10px;
+  height: 10px;
+  margin: 5px;
+  display: block;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0.4;
+}
+.pagination a.active {
+  opacity: 1;
+}
+
+.btn {
+  padding: 10px 40px;
+  background-color: #032041;
+  border: 1px solid #2579ad;
+  border-radius: 4px;
+  font-size: 18px;
+  color: white;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.text {
+  padding: 5px;
+  display: inline-block;
+  font-size: 12px;
+  color: white;
+  text-decoration: none;
+  background: none;
+  border: none;
+}
+
+.btn + .text {
+  margin-top: 10px;
+}
+
+/* Not sure I like this, might change */
+.text:last-child {
+  margin-bottom: 20px;
+}
+.btn:last-child {
+  margin-bottom: 58px;
+}
+
+/* views */
+.full,
+.full #root {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.full .landian {
+  margin-bottom: 40px;
+}
+.full .landian {
+  width: 100%;
+  height: 72vh;
+  position: relative;
+}
+.full .landian img {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.full .share-photo {
+  width: 70vh;
+  height: 70vh;
+  max-width: 100vw;
+  max-height: 100vw;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.full .share-photo > .bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.full .share-photo .landian {
+  height: 60vh;
+  position: absolute;
+  right: -30%;
+  bottom: 0;
+}
