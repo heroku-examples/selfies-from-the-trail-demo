@@ -1,6 +1,5 @@
 node_modules
 config/local.json
 .env
-dist/
 key.pem
 cert.pem
