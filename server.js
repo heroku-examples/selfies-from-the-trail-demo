@@ -13,10 +13,9 @@ const IS_PROD = !IS_DEV
 const start = async () => {
   const hapiConfig = Object.assign({}, config.hapi)
 
-  if (hapiConfig.host && hapiConfig.host !== 'localhost') {
+  if (config.useLocalCerts && hapiConfig.host !== 'localhost') {
     // getUserMedia requires https on all non-localhost domains so if we're testing
-    // locally on our local ip then we need local certificates. This shouldn't depend
-    // on the env since it is helpful to run the production server locally to test
+    // locally on our local ip then we need local certificates. You can generate key files with:
     // openssl req -nodes -new -x509 -keyout key.pem -out cert.pem
     hapiConfig.tls = {
       key: require('fs').readFileSync('key.pem'),

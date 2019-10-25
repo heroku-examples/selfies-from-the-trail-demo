@@ -2,5 +2,6 @@
   "hapi": {
     "host": "localhost",
     "port": 8090
-  }
+  },
+  "useLocalCerts": true
 }
