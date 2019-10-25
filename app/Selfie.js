@@ -46,16 +46,16 @@ const App = () => {
   const [error, setError] = useState(null)
   const [videoEl, setVideoEl] = useState(null)
   const [imageUrls, setImageUrls] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(null)
   const [videoReady, setVideoReady] = useState(false)
   const [readyToShare, setReadyToShare] = useState(false)
 
   const submit = async () => {
-    setLoading(true)
-    setError(null)
-
     const { videoHeight: height, videoWidth: width } = videoEl
     const dataUrl = cropVideoToDataUrl(videoEl)
+
+    setLoading(dataUrl)
+    setError(null)
 
     try {
       const data = await (await api('/submit', {
@@ -75,11 +75,11 @@ const App = () => {
         })
       })).json()
       setImageUrls(data)
-      setLoading(false)
+      setLoading(null)
     } catch (e) {
       setImageUrls(null)
       setError(e.message)
-      setLoading(false)
+      setLoading(null)
     }
   }
 
@@ -112,13 +112,15 @@ const App = () => {
         <video
           ref={hasVideo}
           style={{
-            transform: 'rotateY(180deg)'
+            transform: 'rotateY(180deg)',
+            display: loading ? 'none' : 'block'
           }}
           autoPlay
           muted
           playsInline
           onLoadedMetadata={() => setVideoReady(true)}
         />
+        {loading && <img src={loading} />}
         {videoReady && (
           <Face
             className="face"
