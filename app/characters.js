@@ -119,249 +119,253 @@ import srcLandianBody30 from './images/landian-30-body.svg'
 import srcLandianFace30 from './images/landian-30-face.svg'
 import srcLandianHair30 from './images/landian-30-hair.svg'
 
-export const landian1 = {
-  id: 'landian1',
-  src: srcLandian1,
-  body: srcLandianBody1,
-  face: srcLandianFace1,
-  hair: srcLandianHair1
-}
-export const landian2 = {
-  id: 'landian2',
-  src: srcLandian2,
-  body: srcLandianBody2,
-  face: srcLandianFace2,
-  hair: srcLandianHair2
-}
-export const landian3 = {
-  id: 'landian3',
-  src: srcLandian3,
-  body: srcLandianBody3,
-  face: srcLandianFace3,
-  hair: srcLandianHair3
-}
-export const landian4 = {
-  id: 'landian4',
-  src: srcLandian4,
-  body: srcLandianBody4,
-  face: srcLandianFace4,
-  hair: srcLandianHair4
-}
-export const landian5 = {
-  id: 'landian5',
-  src: srcLandian5,
-  body: srcLandianBody5,
-  face: srcLandianFace5,
-  hair: srcLandianHair5
-}
-export const landian6 = {
-  id: 'landian6',
-  src: srcLandian6,
-  body: srcLandianBody6,
-  face: srcLandianFace6,
-  hair: srcLandianHair6
-}
-export const landian7 = {
-  id: 'landian7',
-  src: srcLandian7,
-  body: srcLandianBody7,
-  face: srcLandianFace7,
-  hair: srcLandianHair7
-}
-export const landian8 = {
-  id: 'landian8',
-  src: srcLandian8,
-  body: srcLandianBody8,
-  face: srcLandianFace8,
-  hair: srcLandianHair8
-}
-export const landian9 = {
-  id: 'landian9',
-  src: srcLandian9,
-  body: srcLandianBody9,
-  face: srcLandianFace9,
-  hair: srcLandianHair9
-}
-export const landian10 = {
-  id: 'landian10',
-  src: srcLandian10,
-  body: srcLandianBody10,
-  face: srcLandianFace10,
-  hair: srcLandianHair10
-}
-export const landian11 = {
-  id: 'landian11',
-  src: srcLandian11,
-  body: srcLandianBody11,
-  face: srcLandianFace11,
-  hair: srcLandianHair11
-}
-export const landian12 = {
-  id: 'landian12',
-  src: srcLandian12,
-  body: srcLandianBody12,
-  face: srcLandianFace12,
-  hair: srcLandianHair12
-}
-export const landian13 = {
-  id: 'landian13',
-  src: srcLandian13,
-  body: srcLandianBody13,
-  face: srcLandianFace13,
-  hair: srcLandianHair13
-}
-export const landian14 = {
-  id: 'landian14',
-  src: srcLandian14,
-  body: srcLandianBody14,
-  face: srcLandianFace14,
-  hair: srcLandianHair14
-}
-export const landian15 = {
-  id: 'landian15',
-  src: srcLandian15,
-  body: srcLandianBody15,
-  face: srcLandianFace15,
-  hair: srcLandianHair15
-}
-export const landian16 = {
-  id: 'landian16',
-  src: srcLandian16,
-  body: srcLandianBody16,
-  face: srcLandianFace16,
-  hair: srcLandianHair16
-}
-export const landian17 = {
-  id: 'landian17',
-  src: srcLandian17,
-  body: srcLandianBody17,
-  face: srcLandianFace17,
-  hair: srcLandianHair17
-}
-export const landian18 = {
-  id: 'landian18',
-  src: srcLandian18,
-  body: srcLandianBody18,
-  face: srcLandianFace18,
-  hair: srcLandianHair18
-}
-export const landian19 = {
-  id: 'landian19',
-  src: srcLandian19,
-  body: srcLandianBody19,
-  face: srcLandianFace19,
-  hair: srcLandianHair19
-}
-export const landian20 = {
-  id: 'landian20',
-  src: srcLandian20,
-  body: srcLandianBody20,
-  face: srcLandianFace20,
-  hair: srcLandianHair20
-}
-export const landian21 = {
-  id: 'landian21',
-  src: srcLandian21,
-  body: srcLandianBody21,
-  face: srcLandianFace21,
-  hair: srcLandianHair21
-}
-export const landian22 = {
-  id: 'landian22',
-  src: srcLandian22,
-  body: srcLandianBody22,
-  face: srcLandianFace22,
-  hair: srcLandianHair22
-}
-export const landian23 = {
-  id: 'landian23',
-  src: srcLandian23,
-  body: srcLandianBody23,
-  face: srcLandianFace23,
-  hair: srcLandianHair23
-}
-export const landian24 = {
-  id: 'landian24',
-  src: srcLandian24,
-  body: srcLandianBody24,
-  face: srcLandianFace24,
-  hair: srcLandianHair24
-}
-export const landian25 = {
-  id: 'landian25',
-  src: srcLandian25,
-  body: srcLandianBody25,
-  face: srcLandianFace25,
-  hair: srcLandianHair25
-}
-export const landian26 = {
-  id: 'landian26',
-  src: srcLandian26,
-  body: srcLandianBody26,
-  face: srcLandianFace26,
-  hair: srcLandianHair26
-}
-export const landian27 = {
-  id: 'landian27',
-  src: srcLandian27,
-  body: srcLandianBody27,
-  face: srcLandianFace27,
-  hair: null
-}
-export const landian28 = {
-  id: 'landian28',
-  src: srcLandian28,
-  body: srcLandianBody28,
-  face: srcLandianFace28,
-  hair: srcLandianHair28
-}
-export const landian29 = {
-  id: 'landian29',
-  src: srcLandian29,
-  body: srcLandianBody29,
-  face: srcLandianFace29,
-  hair: srcLandianHair29
-}
-export const landian30 = {
-  id: 'landian30',
-  src: srcLandian30,
-  body: srcLandianBody30,
-  face: srcLandianFace30,
-  hair: srcLandianHair30
+const characters = {
+  'landian-01': {
+    id: 'landian-01',
+    src: srcLandian1,
+    body: srcLandianBody1,
+    face: srcLandianFace1,
+    hair: srcLandianHair1
+  },
+  'landian-02': {
+    id: 'landian-02',
+    src: srcLandian2,
+    body: srcLandianBody2,
+    face: srcLandianFace2,
+    hair: srcLandianHair2
+  },
+  'landian-03': {
+    id: 'landian-03',
+    src: srcLandian3,
+    body: srcLandianBody3,
+    face: srcLandianFace3,
+    hair: srcLandianHair3
+  },
+  'landian-04': {
+    id: 'landian-04',
+    src: srcLandian4,
+    body: srcLandianBody4,
+    face: srcLandianFace4,
+    hair: srcLandianHair4
+  },
+  'landian-05': {
+    id: 'landian-05',
+    src: srcLandian5,
+    body: srcLandianBody5,
+    face: srcLandianFace5,
+    hair: srcLandianHair5
+  },
+  'landian-06': {
+    id: 'landian-06',
+    src: srcLandian6,
+    body: srcLandianBody6,
+    face: srcLandianFace6,
+    hair: srcLandianHair6
+  },
+  'landian-07': {
+    id: 'landian-07',
+    src: srcLandian7,
+    body: srcLandianBody7,
+    face: srcLandianFace7,
+    hair: srcLandianHair7
+  },
+  'landian-08': {
+    id: 'landian-08',
+    src: srcLandian8,
+    body: srcLandianBody8,
+    face: srcLandianFace8,
+    hair: srcLandianHair8
+  },
+  'landian-09': {
+    id: 'landian-09',
+    src: srcLandian9,
+    body: srcLandianBody9,
+    face: srcLandianFace9,
+    hair: srcLandianHair9
+  },
+  'landian-10': {
+    id: 'landian-10',
+    src: srcLandian10,
+    body: srcLandianBody10,
+    face: srcLandianFace10,
+    hair: srcLandianHair10
+  },
+  'landian-11': {
+    id: 'landian-11',
+    src: srcLandian11,
+    body: srcLandianBody11,
+    face: srcLandianFace11,
+    hair: srcLandianHair11
+  },
+  'landian-12': {
+    id: 'landian-12',
+    src: srcLandian12,
+    body: srcLandianBody12,
+    face: srcLandianFace12,
+    hair: srcLandianHair12
+  },
+  'landian-13': {
+    id: 'landian-13',
+    src: srcLandian13,
+    body: srcLandianBody13,
+    face: srcLandianFace13,
+    hair: srcLandianHair13
+  },
+  'landian-14': {
+    id: 'landian-14',
+    src: srcLandian14,
+    body: srcLandianBody14,
+    face: srcLandianFace14,
+    hair: srcLandianHair14
+  },
+  'landian-15': {
+    id: 'landian-15',
+    src: srcLandian15,
+    body: srcLandianBody15,
+    face: srcLandianFace15,
+    hair: srcLandianHair15
+  },
+  'landian-16': {
+    id: 'landian-16',
+    src: srcLandian16,
+    body: srcLandianBody16,
+    face: srcLandianFace16,
+    hair: srcLandianHair16
+  },
+  'landian-17': {
+    id: 'landian-17',
+    src: srcLandian17,
+    body: srcLandianBody17,
+    face: srcLandianFace17,
+    hair: srcLandianHair17
+  },
+  'landian-18': {
+    id: 'landian-18',
+    src: srcLandian18,
+    body: srcLandianBody18,
+    face: srcLandianFace18,
+    hair: srcLandianHair18
+  },
+  'landian-19': {
+    id: 'landian-19',
+    src: srcLandian19,
+    body: srcLandianBody19,
+    face: srcLandianFace19,
+    hair: srcLandianHair19
+  },
+  'landian-20': {
+    id: 'landian-20',
+    src: srcLandian20,
+    body: srcLandianBody20,
+    face: srcLandianFace20,
+    hair: srcLandianHair20
+  },
+  'landian-21': {
+    id: 'landian-21',
+    src: srcLandian21,
+    body: srcLandianBody21,
+    face: srcLandianFace21,
+    hair: srcLandianHair21
+  },
+  'landian-22': {
+    id: 'landian-22',
+    src: srcLandian22,
+    body: srcLandianBody22,
+    face: srcLandianFace22,
+    hair: srcLandianHair22
+  },
+  'landian-23': {
+    id: 'landian-23',
+    src: srcLandian23,
+    body: srcLandianBody23,
+    face: srcLandianFace23,
+    hair: srcLandianHair23
+  },
+  'landian-24': {
+    id: 'landian-24',
+    src: srcLandian24,
+    body: srcLandianBody24,
+    face: srcLandianFace24,
+    hair: srcLandianHair24
+  },
+  'landian-25': {
+    id: 'landian-25',
+    src: srcLandian25,
+    body: srcLandianBody25,
+    face: srcLandianFace25,
+    hair: srcLandianHair25
+  },
+  'landian-26': {
+    id: 'landian-26',
+    src: srcLandian26,
+    body: srcLandianBody26,
+    face: srcLandianFace26,
+    hair: srcLandianHair26
+  },
+  'landian-27': {
+    id: 'landian-27',
+    src: srcLandian27,
+    body: srcLandianBody27,
+    face: srcLandianFace27,
+    hair: null
+  },
+  'landian-28': {
+    id: 'landian-28',
+    src: srcLandian28,
+    body: srcLandianBody28,
+    face: srcLandianFace28,
+    hair: srcLandianHair28
+  },
+  'landian-29': {
+    id: 'landian-29',
+    src: srcLandian29,
+    body: srcLandianBody29,
+    face: srcLandianFace29,
+    hair: srcLandianHair29
+  },
+  'landian-30': {
+    id: 'landian-30',
+    src: srcLandian30,
+    body: srcLandianBody30,
+    face: srcLandianFace30,
+    hair: srcLandianHair30
+  }
 }
 
-export const group1 = [
-  landian1,
-  landian2,
-  landian3,
-  landian4,
-  landian5,
-  landian6,
-  landian7,
-  landian8,
-  landian9,
-  landian10,
-  landian11,
-  landian12,
-  landian13,
-  landian14,
-  landian15,
-  landian16
-]
-
-export const group2 = [
-  landian17,
-  landian18,
-  landian19,
-  landian20,
-  landian21,
-  landian22,
-  landian23,
-  landian24,
-  landian25,
-  landian26,
-  landian27,
-  landian28,
-  landian29,
-  landian30
-]
+export default {
+  ...characters,
+  group1: [
+    characters['landian-01'],
+    characters['landian-02'],
+    characters['landian-03'],
+    characters['landian-04'],
+    characters['landian-05'],
+    characters['landian-06'],
+    characters['landian-07'],
+    characters['landian-08'],
+    characters['landian-09'],
+    characters['landian-10'],
+    characters['landian-11'],
+    characters['landian-12'],
+    characters['landian-13'],
+    characters['landian-14'],
+    characters['landian-15'],
+    characters['landian-16']
+  ],
+  group2: [
+    characters['landian-17'],
+    characters['landian-18'],
+    characters['landian-19'],
+    characters['landian-20'],
+    characters['landian-21'],
+    characters['landian-22'],
+    characters['landian-23'],
+    characters['landian-24'],
+    characters['landian-25'],
+    characters['landian-26'],
+    characters['landian-27'],
+    characters['landian-28'],
+    characters['landian-29'],
+    characters['landian-30']
+  ]
+}

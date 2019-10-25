@@ -128,6 +128,18 @@ body {
   margin-bottom: 58px;
 }
 
+/* selfie */
+.selfie-frame {
+  position: relative;
+}
+.selfie-frame .face {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  opacity: 0.5;
+}
+
 /* views */
 .full,
 .full #root {

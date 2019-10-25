@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import * as characters from './characters'
+import characters from './characters'
 import api from './api'
+import SVG_CONSTANTS from '../src/svg-constants'
 
 const createCanvas = ({ width, height }) => {
   const canvas = document.createElement('canvas')
@@ -18,37 +19,67 @@ const cropVideoToDataUrl = (video) => {
   return canvas.toDataURL()
 }
 
+const Face = ({ height, width, ...rest }) => {
+  return (
+    <svg height={height} width={width} {...rest}>
+      <ellipse
+        cx={width / 2}
+        cy={height / 2}
+        rx={width / 2}
+        ry={height / 2}
+        fill="#000" // TODO: detect fill color from face
+      />
+    </svg>
+  )
+}
+
 const App = () => {
   const { id } = useParams()
   const character = characters[id]
 
+  // TODO: how does this work for portrait video or in mobile
+  // TODO: this needs to fetched from the api for the specific character
+  const CROP_WIDTH = SVG_CONSTANTS.width * 9
+  const CROP_HEIGHT = SVG_CONSTANTS.height * 9
+  const CROP_TOP = 0.2
+
   const [error, setError] = useState(null)
   const [videoEl, setVideoEl] = useState(null)
-  const [imageUrl, setImageUrl] = useState(null)
-  const [fullImageUrl, setFullImageUrl] = useState(null)
+  const [imageUrls, setImageUrls] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [videoReady, setVideoReady] = useState(false)
   const [readyToShare, setReadyToShare] = useState(false)
 
   const submit = async () => {
+    setLoading(true)
+    setError(null)
+
     const { videoHeight: height, videoWidth: width } = videoEl
     const dataUrl = cropVideoToDataUrl(videoEl)
-    const formData = new FormData()
-    formData.append('image', dataUrl)
-    formData.append('height', height)
-    formData.append('width', width)
-    formData.append('character', id)
+
     try {
-      const res = await api('/submit', {
+      const data = await (await api('/submit', {
         method: 'POST',
-        body: formData
-      })
-      const data = await res.json()
-      setImageUrl(`data:image/png;base64,${data.image}`)
-      setFullImageUrl(`data:image/png;base64,${data.fullImage}`)
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          image: dataUrl,
+          character: character.id,
+          crop: {
+            width: CROP_WIDTH,
+            height: CROP_HEIGHT,
+            top: height * CROP_TOP,
+            left: (width - CROP_WIDTH) / 2
+          }
+        })
+      })).json()
+      setImageUrls(data)
+      setLoading(false)
     } catch (e) {
-      setImageUrl(null)
-      setFullImageUrl(null)
+      setImageUrls(null)
       setError(e.message)
+      setLoading(false)
     }
   }
 
@@ -70,34 +101,47 @@ const App = () => {
   }, [])
 
   return (
-    <div>
+    <>
       {error && <div>{error}</div>}
-      <video
-        ref={hasVideo}
+      <div
+        className="selfie-frame"
         style={{
-          display: imageUrl ? 'none' : 'block',
-          transform: 'rotateY(180deg)'
+          display: imageUrls ? 'none' : 'block'
         }}
-        autoPlay
-        muted
-        playsInline
-        onLoadedMetadata={() => setVideoReady(true)}
-      />
-      <img
-        src={character.face}
-        style={{
-          display: imageUrl ? 'none' : 'block',
-          opacity: 0.4
-        }}
-      />
-      {imageUrl &&
+      >
+        <video
+          ref={hasVideo}
+          style={{
+            transform: 'rotateY(180deg)'
+          }}
+          autoPlay
+          muted
+          playsInline
+          onLoadedMetadata={() => setVideoReady(true)}
+        />
+        {videoReady && (
+          <Face
+            className="face"
+            style={{ top: videoEl.videoHeight * CROP_TOP }}
+            width={CROP_WIDTH}
+            height={CROP_HEIGHT}
+          />
+        )}
+      </div>
+      {imageUrls &&
         (readyToShare ? (
           <React.Fragment>
             <div className="landian">
-              <img src={fullImageUrl} />
+              <img src={imageUrls.background} />
             </div>
             <button className="btn">Share on Twitter</button>
-            <button className="text">download</button>
+            <a
+              className="text"
+              href={imageUrls.background}
+              download="image.png"
+            >
+              download
+            </a>
             <Link to="/" className="text">
               restart
             </Link>
@@ -105,23 +149,26 @@ const App = () => {
         ) : (
           <React.Fragment>
             <div className="landian">
-              <img src={imageUrl} />
+              <img src={imageUrls.character} />
             </div>
             <button className="btn" onClick={() => setReadyToShare(true)}>
               Add your selfie
             </button>
-            <button className="text" onClick={() => setImageUrl(null)}>
+            <button className="text" onClick={() => setImageUrls(null)}>
               or take another one
             </button>
           </React.Fragment>
         ))}
-
-      {videoReady && !imageUrl && (
-        <button className="btn" onClick={submit}>
-          Take Selfie
+      {videoReady && !imageUrls && (
+        <button
+          className="btn"
+          onClick={loading ? () => {} : submit}
+          disabled={loading}
+        >
+          {loading ? 'Loading' : 'Take Selfie'}
         </button>
       )}
-    </div>
+    </>
   )
 }
 

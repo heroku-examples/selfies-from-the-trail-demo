@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import * as characters from './characters'
+import characters from './characters'
 
 const Character = () => {
   const { id } = useParams()

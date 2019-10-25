@@ -1,39 +1,193 @@
 const sharp = require('sharp')
+const path = require('path')
+const fs = require('fs').promises
+const svgson = require('svgson')
+const { PNG } = require('pngjs')
+const _ = require('lodash')
 
-const FACE_WIDTH = 21.27
-const FACE_HEIGHT = 29.23
+const readAppImage = (image) =>
+  fs.readFile(path.resolve(__dirname, '..', 'app', 'images', image))
+
+const bufToBase64Img = (buf) =>
+  `data:image/png;base64,${buf.toString('base64')}`
+
+const base64ImgToBuf = (base64) =>
+  Buffer.from(base64.replace('data:image/png;base64,', ''), 'base64')
+
+const svgToPng = (image) =>
+  sharp(image)
+    .png()
+    .toBuffer()
+
+const svgDimensions = async (image) => {
+  const data = await svgson.parse(
+    Buffer.isBuffer(image) ? image.toString() : image
+  )
+  return {
+    height: +data.attributes.height,
+    width: +data.attributes.width
+  }
+}
+
+const getPngAlphaBounds = (image) =>
+  new Promise((resolve, reject) => {
+    new PNG({ filterType: 4 }).parse(image, (err, data) => {
+      if (err) return reject(err)
+
+      const getStartEnd = (arr) =>
+        arr
+          .map((rowOrCol) => rowOrCol.every((isTransparent) => isTransparent))
+          .map((isTransparent, index, list) => {
+            const prevIsTransparent = list[index - 1]
+            if (!isTransparent && prevIsTransparent === true) {
+              return index + 1
+            } else if (isTransparent && prevIsTransparent === false) {
+              return index
+            }
+            return null
+          })
+          .filter((v) => v !== null)
+
+      const rows = _.range(0, data.height).map(() => [])
+      const columns = _.range(0, data.width).map(() => [])
+
+      for (let y = 0; y < data.height; y++) {
+        for (let x = 0; x < data.width; x++) {
+          const idx = (data.width * y + x) << 2
+          const isTransparent = data.data[idx + 3] === 0
+          rows[y].push(isTransparent)
+          columns[x].push(isTransparent)
+        }
+      }
+
+      const [xStart, xEnd] = getStartEnd(columns)
+      const [yStart, yEnd] = getStartEnd(rows)
+
+      resolve({
+        left: xStart,
+        top: yStart,
+        right: xEnd,
+        bottom: yEnd,
+        width: xEnd - xStart,
+        height: yEnd - yStart
+      })
+    })
+  })
 
 exports.submit = {
   handler: async (req) => {
-    const { image, width, height, character } = req.payload
+    const { image, crop: cropPayload, character } = req.payload
 
-    const svgWidth = FACE_WIDTH
-    const svgHeight = FACE_HEIGHT
+    const crop = Object.keys(cropPayload).reduce((acc, key) => {
+      acc[key] = parseInt(cropPayload[key], 10)
+      return acc
+    }, {})
 
-    const circleImage = sharp(
-      Buffer.from(image.replace(/^data:image\/png;base64,/, ''), 'base64')
+    const scale = 5 // TODO: determine this based on how big the crop paylod is?
+
+    const faceDimensions = await readAppImage(`${character}-face.svg`)
+      .then(svgToPng)
+      .then(getPngAlphaBounds)
+
+    req.log([], faceDimensions)
+
+    const [body, face, hair] = await Promise.all(
+      [
+        `${character}-body.svg`,
+        `${character}-face.svg`,
+        `${character}-hair.svg`
+      ].map(async (name) => {
+        const image = await readAppImage(name)
+        const dim = await svgDimensions(image)
+        // 72 is the default density maybe? It seems to look ok
+        // If you lower this the resultant png is pixelated
+        return sharp(image, { density: 72 * scale })
+          .resize(dim.width * scale, dim.height * scale)
+          .png()
+          .toBuffer()
+      })
     )
-      .resize(22, 30)
+
+    const faceImage = await sharp(base64ImgToBuf(image))
+      .extract({
+        top: crop.top,
+        left: crop.left,
+        width: crop.width,
+        height: crop.height
+      })
       .composite([
         {
-          input: Buffer.from(
-            `<svg width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}">
-               <g>
-                 <path d="M21.71,14.71c.11,7.93-6,14.45-10.63,14.52S.14,23,0,15-.26.09,10.65,0C23.16-.1,21.59,6.78,21.71,14.71Z"/>
-               </g>
-             </svg>`
-          ),
+          input: Buffer.from(`
+            <svg height="${crop.height}" width="${crop.width}">
+              <ellipse
+                cx="${crop.width / 2}"
+                cy="${crop.height / 2}"
+                rx="${crop.width / 2}"
+                ry="${crop.height / 2}"
+              />
+            </svg>
+          `),
           blend: 'dest-in'
         }
       ])
+      .png()
+      .toBuffer()
 
-    const res1 = await circleImage.png().toBuffer()
-    // const res2 = await circleImage2.png().toBuffer()
+    const resizeFace = await sharp(faceImage)
+      .resize({
+        width: faceDimensions.width * scale,
+        height: faceDimensions.height * scale,
+        withoutEnlargement: true
+      })
+      .png()
+      .toBuffer()
+
+    const characterImage = await sharp(body)
+      .composite(
+        await Promise.all([
+          { input: face },
+          {
+            input: resizeFace,
+            top: faceDimensions.top * scale,
+            left: faceDimensions.left * scale
+          },
+          { input: hair }
+        ])
+      )
+      .png()
+      .toBuffer()
+
+    const backgroundImage = await readAppImage('submission-bg.svg')
+    const backgroundDim = await svgDimensions(backgroundImage)
+    const characterResize = await sharp(characterImage)
+      .resize({
+        height: Math.round(backgroundDim.height * 0.5),
+        withoutEnlargement: true
+      })
+      .png()
+      .toBuffer()
+
+    const characterMeta = await sharp(characterResize).metadata()
+    const characterBottom = backgroundDim.height - backgroundDim.height * 0.1
+    const characterTop = characterBottom - characterMeta.height
+    const characterRight = backgroundDim.width - backgroundDim.width * 0.1
+    const characterLeft = characterRight - characterMeta.width
+
+    const characterOnBg = await sharp(backgroundImage)
+      .composite([
+        {
+          input: characterResize,
+          top: Math.round(characterTop),
+          left: Math.round(characterLeft)
+        }
+      ])
+      .png()
+      .toBuffer()
 
     return {
-      image: res1.toString('base64'),
-      fullImage: res1.toString('base64')
-      //image2: res2.toString('base64')
+      face: bufToBase64Img(faceImage),
+      character: bufToBase64Img(characterImage),
+      background: bufToBase64Img(characterOnBg)
     }
   }
 }
