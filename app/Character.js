@@ -20,6 +20,9 @@ const Character = () => {
       <Link to={`/selfie/${id}`} className="btn">
         Take a selfie
       </Link>
+      <Link to="/" className="text">
+        restart
+      </Link>
     </React.Fragment>
   )
 }

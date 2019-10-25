@@ -139,13 +139,20 @@ const App = () => {
         )}
       </div>
       {videoReady && !imageUrls && (
-        <button
-          className="btn"
-          onClick={loading ? () => {} : submit}
-          disabled={loading}
-        >
-          {loading ? 'Loading' : 'Take Selfie'}
-        </button>
+        <>
+          <button
+            className="btn"
+            onClick={loading ? () => {} : submit}
+            disabled={loading}
+          >
+            {loading ? 'Loading' : 'Take Selfie'}
+          </button>
+          {!loading && (
+            <Link to="/" className="text">
+              restart
+            </Link>
+          )}
+        </>
       )}
       {imageUrls &&
         (readyToShare ? (
