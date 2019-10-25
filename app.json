@@ -8,6 +8,11 @@
     }
   ],
   "env": {
+    "NPM_CONFIG_PRODUCTION": {
+      "description": "If you are building and committing the clientside app locally, then this will speed up deploys.",
+      "value": "true",
+      "required": false
+    },
     "KAFKA_URL": {
       "description": "The url of the Kafka instance of the demo app.",
       "required": true
