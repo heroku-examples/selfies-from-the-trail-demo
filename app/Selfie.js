@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import characters from './characters'
 import api from './api'
@@ -100,6 +100,14 @@ const App = () => {
     }
   }, [])
 
+  useEffect(() => {
+    const addFull = imageUrls
+    if (addFull) document.body.classList.add('full')
+    return () => {
+      document.body.classList.remove('full')
+    }
+  }, [imageUrls])
+
   return (
     <>
       {error && <div>{error}</div>}
@@ -130,6 +138,15 @@ const App = () => {
           />
         )}
       </div>
+      {videoReady && !imageUrls && (
+        <button
+          className="btn"
+          onClick={loading ? () => {} : submit}
+          disabled={loading}
+        >
+          {loading ? 'Loading' : 'Take Selfie'}
+        </button>
+      )}
       {imageUrls &&
         (readyToShare ? (
           <React.Fragment>
@@ -161,15 +178,6 @@ const App = () => {
             </button>
           </React.Fragment>
         ))}
-      {videoReady && !imageUrls && (
-        <button
-          className="btn"
-          onClick={loading ? () => {} : submit}
-          disabled={loading}
-        >
-          {loading ? 'Loading' : 'Take Selfie'}
-        </button>
-      )}
     </>
   )
 }
