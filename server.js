@@ -13,6 +13,8 @@ const IS_PROD = !IS_DEV
 const start = async () => {
   const hapiConfig = Object.assign({}, config.hapi)
 
+  console.log(hapiConfig.host)
+
   if (hapiConfig.host !== 'localhost') {
     // getUserMedia requires https on all non-localhost domains so if we're testing
     // locally on our local ip then we need local certificates
