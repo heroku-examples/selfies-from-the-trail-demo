@@ -2,5 +2,11 @@
   "kafka": {
     "url": "$KAFKA_URL",
     "submissionTopic": "${KAFKA_PREFIX}submission-app"
+  },
+  "aws": {
+    "id": "$BUCKETEER_AWS_ACCESS_KEY_ID",
+    "secret": "$BUCKETEER_AWS_SECRET_ACCESS_KEY",
+    "region": "$BUCKETEER_AWS_REGION",
+    "bucket": "$BUCKETEER_BUCKET_NAME"
   }
 }

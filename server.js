@@ -3,8 +3,6 @@ require('dotenv').config()
 const Hapi = require('@hapi/hapi')
 const config = require('getconfig')
 const path = require('path')
-const Kafka = require('no-kafka')
-const WebSocket = require('ws')
 const pack = require('./package')
 
 const IS_DEV = config.getconfig.isDev
@@ -43,15 +41,6 @@ const start = async () => {
   })
 
   server.logger().info(hapiConfig)
-
-  const wsServer = new WebSocket.Server({ server: server.listener })
-
-  const kafkaConfig = {
-    clientId: 'kafka-producer',
-    connectionString: config.kafka.url
-  }
-  server.logger().info(kafkaConfig)
-  const kafkaProducer = new Kafka.Producer(kafkaConfig)
 
   if (IS_DEV) {
     await server.register({
@@ -97,20 +86,12 @@ const start = async () => {
     })
   }
 
-  await kafkaProducer.init()
-  wsServer.on('connection', (ws) => {
-    ws.on('message', (message) => {
-      server
-        .logger()
-        .info(Object.assign({ topic: config.kafka.submissionTopic }, message))
-      kafkaProducer.send({
-        topic: config.kafka.submissionTopic,
-        message: {
-          value: message
-        },
-        partition: 0
-      })
-    })
+  await server.register({
+    plugin: require('./src/kafka-plugin'),
+    options: {
+      clientId: 'kafka-producer',
+      connectionString: config.kafka.url
+    }
   })
 
   server.route(require('./src/routes'))

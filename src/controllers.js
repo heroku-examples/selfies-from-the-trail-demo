@@ -4,6 +4,8 @@ const fs = require('fs').promises
 const svgson = require('svgson')
 const { PNG } = require('pngjs')
 const _ = require('lodash')
+const UUID = require('uuid')
+const aws = require('./aws')
 
 const readAppImage = (image) =>
   fs.readFile(path.resolve(__dirname, '..', 'app', 'images', image))
@@ -73,6 +75,29 @@ const getPngAlphaBounds = (image) =>
       })
     })
   })
+
+exports.character = {
+  handler: async (req) => {
+    const { character } = req.params
+    const image = await readAppImage(`${character}-face.svg`)
+
+    const svgData = await svgson.parse(image.toString())
+    const faceFill = svgData.children[1].children[0].attributes.fill
+
+    const dimensions = await svgToPng(image).then(getPngAlphaBounds)
+
+    return Object.assign({ fill: faceFill }, dimensions)
+  }
+}
+
+exports.savePhoto = {
+  handler: async (req) => {
+    const { photo } = req.payload
+    const data = await aws.uploadPublicPng(UUID.v4(), base64ImgToBuf(photo))
+    req.server.plugins.kafka.send({ url: data.url })
+    return data
+  }
+}
 
 exports.submit = {
   handler: async (req) => {

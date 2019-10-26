@@ -72,11 +72,11 @@ function register(server, options) {
   })
 
   // Expose compiler
-  server.expose({ compiler })
+  server.expose('compiler', compiler)
 }
 
 exports.plugin = {
-  pkg: Pack,
+  name: 'webpack',
   once: true,
   register
 }

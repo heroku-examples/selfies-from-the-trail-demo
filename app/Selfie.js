@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import qs from 'query-string'
 import characters from './characters'
 import api from './api'
-import SVG_CONSTANTS from '../src/svg-constants'
 
 const createCanvas = ({ width, height }) => {
   const canvas = document.createElement('canvas')
@@ -19,7 +19,7 @@ const cropVideoToDataUrl = (video) => {
   return canvas.toDataURL()
 }
 
-const Face = ({ height, width, ...rest }) => {
+const Face = ({ height, width, color, ...rest }) => {
   return (
     <svg height={height} width={width} {...rest}>
       <ellipse
@@ -27,7 +27,7 @@ const Face = ({ height, width, ...rest }) => {
         cy={height / 2}
         rx={width / 2}
         ry={height / 2}
-        fill="#000" // TODO: detect fill color from face
+        fill={color}
       />
     </svg>
   )
@@ -37,18 +37,16 @@ const App = () => {
   const { id } = useParams()
   const character = characters[id]
 
-  // TODO: how does this work for portrait video or in mobile
-  // TODO: this needs to fetched from the api for the specific character
-  const CROP_WIDTH = SVG_CONSTANTS.width * 9
-  const CROP_HEIGHT = SVG_CONSTANTS.height * 9
   const CROP_TOP = 0.2
+  const FACE_SCALE = 9
 
+  const [characterData, setCharacterData] = useState({})
   const [error, setError] = useState(null)
   const [videoEl, setVideoEl] = useState(null)
   const [imageUrls, setImageUrls] = useState(null)
   const [loading, setLoading] = useState(null)
   const [videoReady, setVideoReady] = useState(false)
-  const [readyToShare, setReadyToShare] = useState(false)
+  const [share, setShare] = useState(false)
 
   const submit = async () => {
     const { videoHeight: height, videoWidth: width } = videoEl
@@ -67,10 +65,10 @@ const App = () => {
           image: dataUrl,
           character: character.id,
           crop: {
-            width: CROP_WIDTH,
-            height: CROP_HEIGHT,
+            width: characterData.width * FACE_SCALE,
+            height: characterData.height * FACE_SCALE,
             top: height * CROP_TOP,
-            left: (width - CROP_WIDTH) / 2
+            left: (width - characterData.width * FACE_SCALE) / 2
           }
         })
       })).json()
@@ -80,6 +78,24 @@ const App = () => {
       setImageUrls(null)
       setError(e.message)
       setLoading(null)
+    }
+  }
+
+  const addSelfie = async () => {
+    try {
+      const data = await (await api('/save-photo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          photo: imageUrls.background
+        })
+      })).json()
+      setShare(data)
+    } catch (e) {
+      setError(e.message)
+      setShare(null)
     }
   }
 
@@ -108,6 +124,15 @@ const App = () => {
     }
   }, [imageUrls])
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await api(`/character/${character.id}`)
+      const data = await res.json()
+      setCharacterData(data)
+    }
+    fetchData()
+  }, [character.id])
+
   return (
     <>
       {error && <div>{error}</div>}
@@ -129,12 +154,13 @@ const App = () => {
           onLoadedMetadata={() => setVideoReady(true)}
         />
         {loading && <img src={loading} />}
-        {videoReady && (
+        {videoReady && characterData.fill && (
           <Face
             className="face"
             style={{ top: videoEl.videoHeight * CROP_TOP }}
-            width={CROP_WIDTH}
-            height={CROP_HEIGHT}
+            width={characterData.width * FACE_SCALE}
+            height={characterData.height * FACE_SCALE}
+            color={characterData.fill}
           />
         )}
       </div>
@@ -155,12 +181,22 @@ const App = () => {
         </>
       )}
       {imageUrls &&
-        (readyToShare ? (
+        (share ? (
           <React.Fragment>
             <div className="landian">
               <img src={imageUrls.background} />
             </div>
-            <button className="btn">Share on Twitter</button>
+            <a
+              href={`https://twitter.com/intent/tweet?${qs.stringify({
+                text: 'Test tweet',
+                url: share.url
+              })}`}
+              className="btn"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Share on Twitter
+            </a>
             <a
               className="text"
               href={imageUrls.background}
@@ -177,7 +213,7 @@ const App = () => {
             <div className="landian">
               <img src={imageUrls.character} />
             </div>
-            <button className="btn" onClick={() => setReadyToShare(true)}>
+            <button className="btn" onClick={addSelfie}>
               Add your selfie
             </button>
             <button className="text" onClick={() => setImageUrls(null)}>

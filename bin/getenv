@@ -16,3 +16,8 @@ echo "KAFKA_URL=$(heroku config:get KAFKA_URL $APP)" >> ./.env
 echo "KAFKA_PREFIX=$(heroku config:get KAFKA_PREFIX $APP)" >> ./.env
 echo "KAFKA_CLIENT_CERT=\"$(heroku config:get KAFKA_CLIENT_CERT $APP | awk '{printf "%s\\n", $0}')\"" >> ./.env
 echo "KAFKA_CLIENT_CERT_KEY=\"$(heroku config:get KAFKA_CLIENT_CERT_KEY $APP | awk '{printf "%s\\n", $0}')\"" >> ./.env
+
+echo "BUCKETEER_AWS_ACCESS_KEY_ID=$(heroku config:get BUCKETEER_AWS_ACCESS_KEY_ID $APP)" >> ./.env
+echo "BUCKETEER_AWS_SECRET_ACCESS_KEY=$(heroku config:get BUCKETEER_AWS_SECRET_ACCESS_KEY $APP)" >> ./.env
+echo "BUCKETEER_BUCKET_NAME=$(heroku config:get BUCKETEER_BUCKET_NAME $APP)" >> ./.env
+echo "BUCKETEER_AWS_REGION=$(heroku config:get BUCKETEER_AWS_REGION $APP)" >> ./.env
