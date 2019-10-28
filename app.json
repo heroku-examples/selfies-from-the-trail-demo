@@ -13,20 +13,12 @@
       "value": "true",
       "required": false
     },
-    "KAFKA_URL": {
-      "description": "The url of the Kafka instance of the demo app.",
+    "SERVER_APP_NAME": {
+      "description": "The name of the server app to connect to",
       "required": true
     },
-    "KAFKA_PREFIX": {
-      "description": "The prefix of the Kafka instance of the demo app.",
-      "required": true
-    },
-    "KAFKA_CLIENT_CERT": {
-      "description": "The client certificate of the Kafka instance of the demo app.",
-      "required": true
-    },
-    "KAFKA_CLIENT_CERT_KEY": {
-      "description": "The client certificate key of the Kafka instance of the demo app.",
+    "HEROKU_TOKEN": {
+      "description": "A Heroku auth token that can be used to get the environment variables of the server app",
       "required": true
     }
   }
