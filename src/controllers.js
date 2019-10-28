@@ -31,6 +31,23 @@ const svgDimensions = async (image) => {
   }
 }
 
+const transformObject = (transform) => (obj) =>
+  Object.keys(obj).reduce((acc, key) => {
+    acc[key] = transform(obj[key])
+    return acc
+  }, {})
+
+const scaleObject = (scale) => transformObject((v) => v * scale)
+const roundObject = transformObject((v) => Math.round(v))
+
+const positionObject = (position) => (obj, bg) => {
+  const bottom = bg.height - bg.height * position.bottom
+  const top = bottom - obj.height
+  const right = bg.width - bg.width * position.right
+  const left = right - obj.width
+  return { top, left }
+}
+
 const getPngAlphaBounds = (image) =>
   new Promise((resolve, reject) => {
     new PNG({ filterType: 4 }).parse(image, (err, data) => {
@@ -86,13 +103,13 @@ exports.character = {
 
     const dimensions = await svgToPng(image).then(getPngAlphaBounds)
 
-    return Object.assign({ fill: faceFill }, dimensions)
+    return { fill: faceFill, ...dimensions }
   }
 }
 
 exports.savePhoto = {
   handler: async (req) => {
-    const user = req.state.user || {}
+    const user = req.state.data || {}
     const { photo } = req.payload
     const data = await aws.uploadPublicPng(UUID.v4(), base64ImgToBuf(photo))
     req.server.plugins.kafka.send({ url: data.url, user })
@@ -104,9 +121,9 @@ exports.submit = {
   handler: async (req, h) => {
     const { image, crop: cropPayload, character } = req.payload
 
-    const user = req.state.user || {}
+    const user = req.state.data || {}
     if (!user.id) user.id = UUID.v4()
-    h.state('user', user)
+    h.state('data', user)
 
     const crop = Object.keys(cropPayload).reduce((acc, key) => {
       acc[key] = parseInt(cropPayload[key], 10)
@@ -115,25 +132,20 @@ exports.submit = {
 
     // Magic numbers
     // Scale handles how big to scale up the svgs
-    const scale = 5
+    const scaleSvg = scaleObject(5)
+    // How tall the character should be on the final image
+    //TODO: this might need to differ based on the height of the character
+    const scaleCharacterToBg = scaleObject(0.5)
     // Where to position the character on the background for the final shareable image
-    const characterPositionOnBg = {
-      height: 0.5, // TODO: this might need to differ based on the height of the character
+    const characterPosition = positionObject({
       bottom: 0.1,
       right: 0.1
-    }
+    })
 
     const faceDimensions = await readAppImage(`${character}-face.svg`)
       .then(svgToPng)
       .then(getPngAlphaBounds)
-      .then((dims) =>
-        Object.assign(dims, {
-          width: dims.width * scale,
-          height: dims.height * scale
-        })
-      )
-
-    req.log([], faceDimensions)
+      .then(scaleSvg)
 
     const [body, face, hair] = await Promise.all(
       [
@@ -142,23 +154,18 @@ exports.submit = {
         `${character}-hair.svg`
       ].map(async (name) => {
         const image = await readAppImage(name)
-        const dim = await svgDimensions(image)
+        const dim = await svgDimensions(image).then(scaleSvg)
         // 72 is the default density maybe? It seems to look ok
         // If you lower this the resultant png is pixelated
-        return sharp(image, { density: 72 * scale })
-          .resize(dim.width * scale, dim.height * scale)
+        return sharp(image, scaleSvg({ density: 72 }))
+          .resize(dim.width, dim.height)
           .png()
           .toBuffer()
       })
     )
 
     const faceImage = await sharp(base64ImgToBuf(image))
-      .extract({
-        top: crop.top,
-        left: crop.left,
-        width: crop.width,
-        height: crop.height
-      })
+      .extract(_.pick(crop, 'top', 'left', 'width', 'height'))
       .composite([
         {
           input: Buffer.from(`
@@ -176,14 +183,15 @@ exports.submit = {
       ])
       .png()
       .toBuffer()
-      .then((b) => sharp(b))
-      .resize({
-        width: faceDimensions.width,
-        height: faceDimensions.height,
-        withoutEnlargement: true
-      })
-      .png()
-      .toBuffer()
+      .then((b) =>
+        sharp(b)
+          .resize({
+            withoutEnlargement: true,
+            ..._.pick(faceDimensions, 'height', 'width')
+          })
+          .png()
+          .toBuffer()
+      )
 
     const characterImage = await sharp(body)
       .composite(
@@ -201,29 +209,25 @@ exports.submit = {
       .toBuffer()
 
     const backgroundImage = await readAppImage('submission-bg.svg')
-    const backgroundDim = await svgDimensions(backgroundImage)
+    const backgroundDims = await svgDimensions(backgroundImage)
     const characterResize = await sharp(characterImage)
       .resize({
-        height: Math.round(backgroundDim.height * characterPositionOnBg.height),
-        withoutEnlargement: true
+        withoutEnlargement: true,
+        ..._.pick(roundObject(scaleCharacterToBg(backgroundDims)), 'height')
       })
       .png()
       .toBuffer()
 
-    const characterMeta = await sharp(characterResize).metadata()
-    const characterBottom =
-      backgroundDim.height - backgroundDim.height * characterPositionOnBg.bottom
-    const characterTop = characterBottom - characterMeta.height
-    const characterRight =
-      backgroundDim.width - backgroundDim.width * characterPositionOnBg.right
-    const characterLeft = characterRight - characterMeta.width
-
+    const characterDims = await sharp(characterResize).metadata()
     const characterOnBg = await sharp(backgroundImage)
       .composite([
         {
           input: characterResize,
-          top: Math.round(characterTop),
-          left: Math.round(characterLeft)
+          ..._.pick(
+            roundObject(characterPosition(characterDims, backgroundDims)),
+            'top',
+            'left'
+          )
         }
       ])
       .png()
