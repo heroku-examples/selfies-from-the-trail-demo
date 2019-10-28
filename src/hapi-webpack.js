@@ -1,4 +1,3 @@
-const Pack = require('../package.json')
 const Webpack = require('webpack')
 const Path = require('path')
 const WebpackDevMiddleware = require('webpack-dev-middleware')

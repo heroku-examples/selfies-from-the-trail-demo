@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import ChooseCharacter from './ChooseCharacter'
 import Character from './Character'
 import Selfie from './Selfie'
+import FourOhFour from './404'
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route exact path="/selfie/:id">
           <Selfie />
         </Route>
+        <Route component={FourOhFour} />
       </Switch>
     </Router>
   )
