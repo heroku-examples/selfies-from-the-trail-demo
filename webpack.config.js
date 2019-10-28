@@ -40,7 +40,8 @@ module.exports = {
     !isProd && new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       title: 'Pure Heroku Demo',
-      template: 'app/index.html'
+      template: 'app/index.html',
+      favicon: 'app/images/favicon.ico'
     })
   ].filter(Boolean)
 }
