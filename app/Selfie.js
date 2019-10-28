@@ -37,7 +37,13 @@ const App = () => {
   const { id } = useParams()
   const character = characters[id]
 
+  // How far to position the face crop circle from the top of the video
   const CROP_TOP = 0.2
+
+  // We read the absolute pixel size of the character's face from the server
+  // and then scale up by this factor
+  // TODO: this works well for a 640x480 size video but might need to change
+  // for mobile or smaller resized browser windows
   const FACE_SCALE = 9
 
   const [characterData, setCharacterData] = useState({})
@@ -188,8 +194,11 @@ const App = () => {
             </div>
             <a
               href={`https://twitter.com/intent/tweet?${qs.stringify({
-                text: 'Test tweet',
-                url: share.url
+                text: 'A message to tweet along with the url',
+                url: share.url,
+                hashtags: 'dreamforce,heroku',
+                via: 'heroku',
+                related: 'heroku,salesforce'
               })}`}
               className="btn"
               rel="noopener noreferrer"
@@ -197,6 +206,7 @@ const App = () => {
             >
               Share on Twitter
             </a>
+            {/* TODO: send to email? */}
             <a
               className="text"
               href={imageUrls.background}

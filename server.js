@@ -63,6 +63,15 @@ const start = async () => {
     }
   })
 
+  server.state('data', {
+    encoding: 'base64json',
+    isSecure: false,
+    isHttpOnly: false,
+    isSameSite: false,
+    path: '/',
+    ttl: 86400000
+  })
+
   server.route(require('./src/routes'))
 
   server.start()

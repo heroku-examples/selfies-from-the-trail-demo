@@ -92,27 +92,46 @@ exports.character = {
 
 exports.savePhoto = {
   handler: async (req) => {
+    const user = req.state.user || {}
     const { photo } = req.payload
     const data = await aws.uploadPublicPng(UUID.v4(), base64ImgToBuf(photo))
-    req.server.plugins.kafka.send({ url: data.url })
+    req.server.plugins.kafka.send({ url: data.url, user })
     return data
   }
 }
 
 exports.submit = {
-  handler: async (req) => {
+  handler: async (req, h) => {
     const { image, crop: cropPayload, character } = req.payload
+
+    const user = req.state.user || {}
+    if (!user.id) user.id = UUID.v4()
+    h.state('user', user)
 
     const crop = Object.keys(cropPayload).reduce((acc, key) => {
       acc[key] = parseInt(cropPayload[key], 10)
       return acc
     }, {})
 
-    const scale = 5 // TODO: determine this based on how big the crop paylod is?
+    // Magic numbers
+    // Scale handles how big to scale up the svgs
+    const scale = 5
+    // Where to position the character on the background for the final shareable image
+    const characterPositionOnBg = {
+      height: 0.5, // TODO: this might need to differ based on the height of the character
+      bottom: 0.1,
+      right: 0.1
+    }
 
     const faceDimensions = await readAppImage(`${character}-face.svg`)
       .then(svgToPng)
       .then(getPngAlphaBounds)
+      .then((dims) =>
+        Object.assign(dims, {
+          width: dims.width * scale,
+          height: dims.height * scale
+        })
+      )
 
     req.log([], faceDimensions)
 
@@ -157,11 +176,10 @@ exports.submit = {
       ])
       .png()
       .toBuffer()
-
-    const resizeFace = await sharp(faceImage)
+      .then((b) => sharp(b))
       .resize({
-        width: faceDimensions.width * scale,
-        height: faceDimensions.height * scale,
+        width: faceDimensions.width,
+        height: faceDimensions.height,
         withoutEnlargement: true
       })
       .png()
@@ -172,9 +190,9 @@ exports.submit = {
         await Promise.all([
           { input: face },
           {
-            input: resizeFace,
-            top: faceDimensions.top * scale,
-            left: faceDimensions.left * scale
+            input: faceImage,
+            top: faceDimensions.top,
+            left: faceDimensions.left
           },
           { input: hair }
         ])
@@ -186,16 +204,18 @@ exports.submit = {
     const backgroundDim = await svgDimensions(backgroundImage)
     const characterResize = await sharp(characterImage)
       .resize({
-        height: Math.round(backgroundDim.height * 0.5),
+        height: Math.round(backgroundDim.height * characterPositionOnBg.height),
         withoutEnlargement: true
       })
       .png()
       .toBuffer()
 
     const characterMeta = await sharp(characterResize).metadata()
-    const characterBottom = backgroundDim.height - backgroundDim.height * 0.1
+    const characterBottom =
+      backgroundDim.height - backgroundDim.height * characterPositionOnBg.bottom
     const characterTop = characterBottom - characterMeta.height
-    const characterRight = backgroundDim.width - backgroundDim.width * 0.1
+    const characterRight =
+      backgroundDim.width - backgroundDim.width * characterPositionOnBg.right
     const characterLeft = characterRight - characterMeta.width
 
     const characterOnBg = await sharp(backgroundImage)
@@ -210,7 +230,6 @@ exports.submit = {
       .toBuffer()
 
     return {
-      face: bufToBase64Img(faceImage),
       character: bufToBase64Img(characterImage),
       background: bufToBase64Img(characterOnBg)
     }
