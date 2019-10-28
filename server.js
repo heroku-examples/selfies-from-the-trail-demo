@@ -29,7 +29,7 @@ const start = async () => {
     }
   })
 
-  server.logger().info(hapiConfig)
+  server.log(['start'], hapiConfig)
 
   if (IS_DEV) {
     await server.register({
@@ -75,7 +75,7 @@ const start = async () => {
   server.route(require('./src/routes'))
 
   server.start()
-  server.logger().info('Server running at:', server.info.uri)
+  server.log(['start'], server.info.uri)
 }
 
 start().catch((err) => {

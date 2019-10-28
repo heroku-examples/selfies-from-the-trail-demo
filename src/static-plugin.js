@@ -3,7 +3,7 @@ const path = require('path')
 const register = async (server, options) => {
   const { directoryPath } = options
 
-  server.logger().info(options)
+  server.log(['static-plugin'], options)
 
   // Add static plugin
   await server.register(require('@hapi/inert'))
@@ -28,7 +28,7 @@ const register = async (server, options) => {
         request.response.isBoom &&
         request.response.output.statusCode === 404
       ) {
-        request.logger.info('Fallback to index for %s', request.path)
+        request.log(['static-plugin'], request.path)
         return h.file(path.join(directoryPath, 'index.html')).code(404)
       }
 
