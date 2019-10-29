@@ -168,7 +168,16 @@ exports.submit = {
         `${character}-face.svg`,
         `${character}-hair.svg`
       ].map(async (name) => {
-        const image = await readAppImage(name)
+        let image
+        try {
+          image = await readAppImage(name)
+        } catch (e) {
+          // Some people dont have hair and thats ok
+          if (name === `${character}-hair.svg` && e.code === 'ENOENT') {
+            return null
+          }
+          throw e
+        }
         const dim = await svgDimensions(image).then(scaleSvg)
         // 72 is the default density maybe? It seems to look ok
         // If you lower this the resultant png is pixelated
@@ -210,15 +219,17 @@ exports.submit = {
 
     const characterImage = await sharp(body)
       .composite(
-        await Promise.all([
-          { input: face },
-          {
-            input: faceImage,
-            top: faceDimensions.top,
-            left: faceDimensions.left
-          },
-          { input: hair }
-        ])
+        await Promise.all(
+          [
+            { input: face },
+            {
+              input: faceImage,
+              top: faceDimensions.top,
+              left: faceDimensions.left
+            },
+            hair && { input: hair }
+          ].filter(Boolean)
+        )
       )
       .png()
       .toBuffer()
