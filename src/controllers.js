@@ -110,10 +110,25 @@ exports.character = {
 exports.savePhoto = {
   handler: async (req) => {
     const user = req.state.data || {}
-    const { photo } = req.payload
-    const data = await aws.uploadPublicPng(UUID.v4(), base64ImgToBuf(photo))
-    req.server.plugins.kafka.send({ url: data.url, user })
-    return data
+    const { image, character } = req.payload
+
+    const [imageUpload, characterUpload] = await Promise.all(
+      [image, character].map((v) =>
+        aws.uploadPublicPng(UUID.v4(), base64ImgToBuf(v))
+      )
+    )
+
+    const res = {
+      image: imageUpload.url,
+      character: characterUpload.url
+    }
+
+    req.server.plugins.kafka.send({
+      ...res,
+      user
+    })
+
+    return res
   }
 }
 

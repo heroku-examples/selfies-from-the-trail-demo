@@ -29,7 +29,7 @@ const register = async (server, options) => {
         request.response.output.statusCode === 404
       ) {
         request.log(['static-plugin'], request.path)
-        return h.file(path.join(directoryPath, 'index.html')).code(404)
+        return h.file(path.join(directoryPath, 'index.html')).code(200)
       }
 
       return h.continue

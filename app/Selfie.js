@@ -95,7 +95,8 @@ const App = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          photo: imageUrls.background
+          image: imageUrls.background,
+          character: imageUrls.character
         })
       })).json()
       setShare(data)
@@ -195,7 +196,7 @@ const App = () => {
             <a
               href={`https://twitter.com/intent/tweet?${qs.stringify({
                 text: 'A message to tweet along with the url',
-                url: share.url,
+                url: share.image,
                 hashtags: 'dreamforce,heroku',
                 via: 'heroku',
                 related: 'heroku,salesforce'
