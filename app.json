@@ -2,6 +2,7 @@
   "name": "Pure Heroku Demo Attendee",
   "description": "",
   "repository": "https://github.com/andyet/pure-heroku-demo-attendee",
+  "success_url": "/qr",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
