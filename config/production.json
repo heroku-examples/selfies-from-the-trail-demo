@@ -1,7 +1,7 @@
 {
   "hapi": {
     "host": "$$HOST",
-    "port": "$PORT::number"
+    "port": "$$PORT::number"
   },
   "useLocalCerts": false
 }

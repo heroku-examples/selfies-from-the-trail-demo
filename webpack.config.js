@@ -1,9 +1,6 @@
-require('dotenv').config()
-
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const config = require('getconfig')
-const isDev = config.getconfig.isDev
+const isDev = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   output: {
@@ -45,9 +42,6 @@ module.exports = {
       title: 'Pure Heroku Demo',
       template: 'app/index.html',
       favicon: 'app/images/favicon.ico'
-    }),
-    new webpack.DefinePlugin({
-      'process.env.CLIENT_CONFIG': JSON.stringify(config.client)
     })
   ].filter(Boolean)
 }

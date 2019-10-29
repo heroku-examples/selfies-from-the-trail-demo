@@ -1,2 +1,9 @@
-// Written by webpack.config.js
-module.exports = process.env.CLIENT_CONFIG
+export default {
+  tweet: {
+    text: 'A message to tweet along with the url',
+    hashtags: 'dreamforce,heroku',
+    via: 'heroku',
+    related: 'heroku,salesforce'
+  },
+  downloadName: 'df-heroku-booth-2019'
+}

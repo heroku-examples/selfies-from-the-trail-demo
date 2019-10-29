@@ -40,4 +40,4 @@ git push
 
 ## Client Config
 
-The client config values are located in `config/default.json#client`. Only the `client` key is written to the app bundle (using webpack's `DefinePlugin`). This is to ensure that no server secrets are written to the client.
+The client config values are located in `app/config.js`.
