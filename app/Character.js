@@ -17,12 +17,14 @@ const Character = () => {
       <div className="landian">
         <img src={characters[id].src} />
       </div>
-      <Link to={`/selfie/${id}`} className="btn">
-        Take a selfie
-      </Link>
-      <Link to="/" className="text">
-        restart
-      </Link>
+      <nav className="cta">
+        <Link to={`/selfie/${id}`} className="btn">
+          Take a selfie
+        </Link>
+        <Link to="/" className="text">
+          restart
+        </Link>
+      </nav>
     </React.Fragment>
   )
 }
