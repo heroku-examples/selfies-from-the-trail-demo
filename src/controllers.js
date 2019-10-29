@@ -118,20 +118,44 @@ exports.savePhoto = {
   handler: async (req) => {
     const user = req.state.data || {}
     const { image, character } = req.payload
+    const uploadId = UUID.v4()
 
-    const [imageUpload, characterUpload] = await Promise.all(
-      [image, character].map((v) =>
-        aws.uploadPublicPng(UUID.v4(), base64ImgToBuf(v))
-      )
+    const [imageUpload, characterUpload] = await Promise.all([
+      aws.upload(`${uploadId}.png`, base64ImgToBuf(image)),
+      aws.upload(`${uploadId}-c.png`, base64ImgToBuf(character))
+    ])
+
+    const htmlUpload = await aws.upload(
+      uploadId,
+      `<!DOCTYPE html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+              <title>Test title</title>
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <meta name="twitter:card" content="summary_large_image">
+              <meta name="twitter:site" content="@yourwebsite">
+              <meta name="twitter:creator" content="@yourtwitterhandle">
+              <meta name="twitter:title" content="your title">
+              <meta name="twitter:description" content="your description.">
+              <meta name="twitter:image" content="${imageUpload.url}">
+            </head>
+            <body>
+              <img src=${imageUpload.url} />
+            </body>
+          </html>`
     )
 
     const res = {
       image: imageUpload.url,
-      character: characterUpload.url
+      character: characterUpload.url,
+      html: htmlUpload.url
     }
 
     req.server.plugins.kafka.sendSubmission({
       ...res,
+      uploadId,
       user
     })
 

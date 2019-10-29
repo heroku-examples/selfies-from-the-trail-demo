@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk')
 const config = require('getconfig')
+const path = require('path')
 
 const s3 = new AWS.S3({
   accessKeyId: config.aws.id,
@@ -7,14 +8,23 @@ const s3 = new AWS.S3({
   region: config.aws.region
 })
 
-exports.uploadPublicPng = (key, body) =>
-  new Promise((resolve, reject) => {
+const getContentType = (ext) => {
+  const map = {
+    png: 'image/png',
+    html: 'text/html'
+  }
+  return map[ext] || map.html
+}
+
+exports.upload = (key, body) => {
+  const contentType = getContentType(path.extname(key).slice(1))
+  return new Promise((resolve, reject) => {
     s3.putObject(
       {
-        Key: `public/${key}.png`,
+        Key: `public/${key}`,
         Body: body,
         Bucket: config.aws.bucket,
-        ContentType: 'image/png'
+        ContentType: contentType
       },
       (err, data) => {
         if (err) return reject(err)
@@ -22,7 +32,7 @@ exports.uploadPublicPng = (key, body) =>
         resolve(
           Object.assign(
             {
-              url: `http://${config.aws.bucket}.s3.amazonaws.com/public/${key}.png`
+              url: `http://${config.aws.bucket}.s3.amazonaws.com/public/${key}`
             },
             data
           )
@@ -30,3 +40,4 @@ exports.uploadPublicPng = (key, body) =>
       }
     )
   })
+}
