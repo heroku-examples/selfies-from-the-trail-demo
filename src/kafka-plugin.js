@@ -8,7 +8,7 @@ const register = async (server, options) => {
   const kafkaProducer = new Kafka.Producer(kafkaConfig)
   await kafkaProducer.init()
 
-  const sendTopic = (data) => {
+  server.expose('sendSubmission', (data) => {
     server.log(['kafka', config.kafka.submissionTopic], data)
     kafkaProducer.send({
       topic: config.kafka.submissionTopic,
@@ -17,9 +17,18 @@ const register = async (server, options) => {
       },
       partition: 0
     })
-  }
+  })
 
-  server.expose('send', sendTopic)
+  server.expose('changeBackground', () => {
+    server.log(['kafka', config.kafka.backgroundTopic])
+    kafkaProducer.send({
+      topic: config.kafka.backgroundTopic,
+      message: {
+        value: ''
+      },
+      partition: 0
+    })
+  })
 }
 
 exports.plugin = {

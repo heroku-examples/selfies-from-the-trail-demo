@@ -93,6 +93,13 @@ const getPngAlphaBounds = (image) =>
     })
   })
 
+exports.changeBackground = {
+  handler: async (req) => {
+    req.server.plugins.kafka.changeBackground()
+    return {}
+  }
+}
+
 exports.character = {
   handler: async (req) => {
     const { character } = req.params
@@ -123,7 +130,7 @@ exports.savePhoto = {
       character: characterUpload.url
     }
 
-    req.server.plugins.kafka.send({
+    req.server.plugins.kafka.sendSubmission({
       ...res,
       user
     })

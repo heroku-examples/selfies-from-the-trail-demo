@@ -1,7 +1,8 @@
 {
   "kafka": {
     "url": "$KAFKA_URL",
-    "submissionTopic": "${KAFKA_PREFIX}submission-app"
+    "submissionTopic": "${KAFKA_PREFIX}submission-app",
+    "backgroundTopic": "${KAFKA_PREFIX}change-background"
   },
   "aws": {
     "id": "$BUCKETEER_AWS_ACCESS_KEY_ID",
