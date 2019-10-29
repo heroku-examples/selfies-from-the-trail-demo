@@ -8,5 +8,13 @@
     "secret": "$BUCKETEER_AWS_SECRET_ACCESS_KEY",
     "region": "$BUCKETEER_AWS_REGION",
     "bucket": "$BUCKETEER_BUCKET_NAME"
+  },
+  "client": {
+    "tweet": {
+      "text": "A message to tweet along with the url",
+      "hashtags": "dreamforce,heroku",
+      "via": "heroku",
+      "related": "heroku,salesforce"
+    }
   }
 }

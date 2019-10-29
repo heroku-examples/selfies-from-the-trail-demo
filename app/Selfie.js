@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import qs from 'query-string'
 import characters from './characters'
 import api from './api'
+import config from './config'
 
 const createCanvas = ({ width, height }) => {
   const canvas = document.createElement('canvas')
@@ -195,11 +196,8 @@ const App = () => {
             </div>
             <a
               href={`https://twitter.com/intent/tweet?${qs.stringify({
-                text: 'A message to tweet along with the url',
-                url: share.image,
-                hashtags: 'dreamforce,heroku',
-                via: 'heroku',
-                related: 'heroku,salesforce'
+                ...config.tweet,
+                url: share.image
               })}`}
               className="btn"
               rel="noopener noreferrer"

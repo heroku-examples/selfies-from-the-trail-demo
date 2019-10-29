@@ -21,3 +21,5 @@ echo "BUCKETEER_AWS_ACCESS_KEY_ID=$(heroku config:get BUCKETEER_AWS_ACCESS_KEY_I
 echo "BUCKETEER_AWS_SECRET_ACCESS_KEY=$(heroku config:get BUCKETEER_AWS_SECRET_ACCESS_KEY $APP)" >> ./.env
 echo "BUCKETEER_BUCKET_NAME=$(heroku config:get BUCKETEER_BUCKET_NAME $APP)" >> ./.env
 echo "BUCKETEER_AWS_REGION=$(heroku config:get BUCKETEER_AWS_REGION $APP)" >> ./.env
+
+echo "PORT=8090" >> ./.env

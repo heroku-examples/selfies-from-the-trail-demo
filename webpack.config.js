@@ -1,17 +1,20 @@
+require('dotenv').config()
+
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const isProd = process.env.NODE_ENV === 'production'
+const config = require('getconfig')
+const isDev = config.getconfig.isDev
 
 module.exports = {
   output: {
     publicPath: '/'
   },
   entry: {
-    app: ['./app/index.js', !isProd && 'webpack-hot-middleware/client'].filter(
+    app: ['./app/index.js', isDev && 'webpack-hot-middleware/client'].filter(
       Boolean
     )
   },
-  mode: isProd ? 'production' : 'development',
+  mode: isDev ? 'development' : 'production',
   module: {
     rules: [
       {
@@ -37,11 +40,14 @@ module.exports = {
     ]
   },
   plugins: [
-    !isProd && new webpack.HotModuleReplacementPlugin(),
+    isDev && new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       title: 'Pure Heroku Demo',
       template: 'app/index.html',
       favicon: 'app/images/favicon.ico'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.CLIENT_CONFIG': JSON.stringify(config.client)
     })
   ].filter(Boolean)
 }
