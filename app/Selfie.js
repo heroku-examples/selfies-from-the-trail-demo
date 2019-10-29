@@ -205,11 +205,10 @@ const App = () => {
             >
               Share on Twitter
             </a>
-            {/* TODO: send to email? */}
             <a
               className="text"
               href={imageUrls.background}
-              download="image.png"
+              download={`${config.downloadName}.png`}
             >
               download
             </a>
