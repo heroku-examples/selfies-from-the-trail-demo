@@ -1,6 +1,16 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const fs = require('fs')
+const path = require('path')
+const _ = require('lodash')
 const isDev = process.env.NODE_ENV !== 'production'
+
+const landians = _.shuffle(
+  fs
+    .readdirSync('./app/images')
+    .filter((v) => v.match(/^landian-\d{2}\.svg/))
+    .map((v) => path.basename(v, path.extname(v)))
+)
 
 module.exports = {
   output: {
@@ -42,6 +52,9 @@ module.exports = {
       title: 'Pure Heroku Demo',
       template: 'app/index.html',
       favicon: 'app/images/favicon.ico'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.LANDIAN_SHUFFLE': JSON.stringify(landians)
     })
   ].filter(Boolean)
 }

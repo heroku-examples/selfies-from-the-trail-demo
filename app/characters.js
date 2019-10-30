@@ -334,38 +334,5 @@ const characters = {
 
 export default {
   ...characters,
-  group1: [
-    characters['landian-01'],
-    characters['landian-02'],
-    characters['landian-03'],
-    characters['landian-04'],
-    characters['landian-05'],
-    characters['landian-06'],
-    characters['landian-07'],
-    characters['landian-08'],
-    characters['landian-09'],
-    characters['landian-10'],
-    characters['landian-11'],
-    characters['landian-12'],
-    characters['landian-13'],
-    characters['landian-14'],
-    characters['landian-15'],
-    characters['landian-16']
-  ],
-  group2: [
-    characters['landian-17'],
-    characters['landian-18'],
-    characters['landian-19'],
-    characters['landian-20'],
-    characters['landian-21'],
-    characters['landian-22'],
-    characters['landian-23'],
-    characters['landian-24'],
-    characters['landian-25'],
-    characters['landian-26'],
-    characters['landian-27'],
-    characters['landian-28'],
-    characters['landian-29'],
-    characters['landian-30']
-  ]
+  group: process.env.LANDIAN_SHUFFLE.map((id) => characters[id])
 }

@@ -7,16 +7,7 @@ const ChooseCharacter = () => {
     <React.Fragment>
       <p className="intro">Select a character</p>
       <ul className="landian-list">
-        {characters.group1.map((c) => (
-          <Link key={c.id} to={`/character/${c.id}`}>
-            <li className="landian">
-              <img src={c.src} />
-            </li>
-          </Link>
-        ))}
-      </ul>
-      <ul className="landian-list">
-        {characters.group2.map((c) => (
+        {characters.group.map((c) => (
           <Link key={c.id} to={`/character/${c.id}`}>
             <li className="landian">
               <img src={c.src} />
