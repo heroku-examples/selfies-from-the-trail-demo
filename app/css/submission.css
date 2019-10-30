@@ -107,13 +107,29 @@ body {
 
 /* selfie */
 .selfie-frame {
+  width: 100vw;
   height: 100vh;
   position: relative;
   background-color: #111;
+  overflow: hidden;
 }
 
 .selfie-frame video {
-  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+}
+
+.selfie-frame > img {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.selfie-frame .face {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.5;
 }
 
 .selfie-frame + .intro {
@@ -136,14 +152,6 @@ body {
   right: 0;
   z-index: 3;
   background-color: rgba(0,0,0,.5);
-}
-
-.selfie-frame .face {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-  opacity: 0.5;
 }
 
 .btn-capture {
