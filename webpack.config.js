@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
@@ -55,6 +56,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       'process.env.LANDIAN_SHUFFLE': JSON.stringify(landians)
-    })
+    }),
+    !isDev && new CleanWebpackPlugin()
   ].filter(Boolean)
 }

@@ -211,7 +211,7 @@ const App = () => {
               <a
                 href={`https://twitter.com/intent/tweet?${qs.stringify({
                   ...config.tweet,
-                  url: share.image
+                  url: share.html
                 })}`}
                 className="btn"
                 rel="noopener noreferrer"
