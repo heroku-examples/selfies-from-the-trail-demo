@@ -159,9 +159,8 @@ const App = () => {
         <video
           ref={hasVideo}
           style={{
-            transform: 'rotateY(180deg)',
-            display: loading ? 'none' : 'block',
-            left: videoEl ? videoEl.videoWidth * -0.5 : 0
+            transform: 'rotateY(180deg) translateX(50%)',
+            display: loading ? 'none' : 'block'
           }}
           autoPlay
           muted
@@ -171,7 +170,6 @@ const App = () => {
         {loading && (
           <img
             src={loading}
-            style={{ left: videoEl ? videoEl.videoWidth * -0.5 : 0 }}
           />
         )}
         {videoReady && characterData.fill && (

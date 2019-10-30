@@ -107,13 +107,29 @@ body {
 
 /* selfie */
 .selfie-frame {
+  width: 100vw;
   height: 100vh;
   position: relative;
   background-color: #111;
+  overflow: hidden;
 }
 
 .selfie-frame video {
-  margin: 0 auto;
+  position: absolute;
+  left: 50%;
+}
+
+.selfie-frame > img {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.selfie-frame .face {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.5;
 }
 
 .selfie-frame + .intro {
@@ -136,14 +152,6 @@ body {
   right: 0;
   z-index: 3;
   background-color: rgba(0,0,0,.5);
-}
-
-.selfie-frame .face {
-  position: absolute;
-  left: 0;
-  right: 0;
-  margin: auto;
-  opacity: 0.5;
 }
 
 .btn-capture {
@@ -187,29 +195,21 @@ body {
   transform: translateX(-50%);
 }
 
-.full .share-photo {
-  width: 70vh;
-  height: 70vh;
+.full .share-image {
+  width: calc(100vh - 100px);
+  height: calc(100vh - 100px);
   max-width: 100vw;
-  max-height: 100vw;
-  margin-bottom: 40px;
+  margin: 0 auto 20px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
-.full .share-photo > .bg {
+.full .share-image img {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
   width: 100%;
-}
-
-.full .share-photo .landian {
-  height: 60vh;
-  position: absolute;
-  right: -30%;
-  bottom: 0;
 }
 
 /* QR code and URL overlay */
