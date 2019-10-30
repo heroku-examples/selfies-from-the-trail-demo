@@ -16,6 +16,7 @@
     },
     "SERVER_APP_NAME": {
       "description": "The name of the server app to connect to",
+      "value": "pure-heroku-demo"
       "required": true
     },
     "HEROKU_TOKEN": {
