@@ -167,11 +167,7 @@ const App = () => {
           playsInline
           onLoadedMetadata={() => setVideoReady(true)}
         />
-        {loading && (
-          <img
-            src={loading}
-          />
-        )}
+        {loading && <img src={loading} />}
         {videoReady && characterData.fill && (
           <Face
             className="face"

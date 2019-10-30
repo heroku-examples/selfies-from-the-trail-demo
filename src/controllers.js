@@ -106,9 +106,17 @@ exports.character = {
     const image = await readAppImage(`${character}-face.svg`)
 
     const svgData = await svgson.parse(image.toString())
-    const faceFill = svgData.children[1].children[0].attributes.fill
+    const face = svgData.children[1].children[0]
+    const faceFill = face.attributes.fill
 
-    const dimensions = await svgToPng(image).then(getPngAlphaBounds)
+    let dimensions = {}
+
+    if (face.type === 'ellipse') {
+      const { rx, ry } = face.attributes
+      dimensions = { height: Math.round(ry * 2), width: Math.round(rx * 2) }
+    } else {
+      dimensions = await svgToPng(image).then(getPngAlphaBounds)
+    }
 
     return { fill: faceFill, ...dimensions }
   }

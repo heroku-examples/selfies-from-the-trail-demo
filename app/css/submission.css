@@ -2,27 +2,34 @@
   font-family: salesforce-sans;
   font-style: normal;
   font-weight: 200;
-  src: url(https://www.herokucdn.com/fonts/SalesforceSans-Book.eot?#iefix) format("embedded-opentype"),
-    url(https://www.herokucdn.com/fonts/SalesforceSans-Book.woff) format("woff"),
-    url(https://www.herokucdn.com/fonts/SalesforceSans-Book.ttf) format("truetype")
+  src: url(https://www.herokucdn.com/fonts/SalesforceSans-Book.eot?#iefix)
+      format('embedded-opentype'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Book.woff) format('woff'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Book.ttf)
+      format('truetype');
 }
 
 @font-face {
   font-family: salesforce-sans;
   font-style: normal;
   font-weight: 400;
-  src: url(https://www.herokucdn.com/fonts/SalesforceSans-Regular.eot?#iefix) format("embedded-opentype"),
-    url(https://www.herokucdn.com/fonts/SalesforceSans-Regular.woff) format("woff"),
-    url(https://www.herokucdn.com/fonts/SalesforceSans-Regular.ttf) format("truetype")
+  src: url(https://www.herokucdn.com/fonts/SalesforceSans-Regular.eot?#iefix)
+      format('embedded-opentype'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Regular.woff)
+      format('woff'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Regular.ttf)
+      format('truetype');
 }
 
 @font-face {
   font-family: salesforce-sans;
   font-style: normal;
   font-weight: 700;
-  src: url(https://www.herokucdn.com/fonts/SalesforceSans-Bold.eot?#iefix) format("embedded-opentype"),
-    url(https://www.herokucdn.com/fonts/SalesforceSans-Bold.woff) format("woff"),
-    url(https://www.herokucdn.com/fonts/SalesforceSans-Bold.ttf) format("truetype")
+  src: url(https://www.herokucdn.com/fonts/SalesforceSans-Bold.eot?#iefix)
+      format('embedded-opentype'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Bold.woff) format('woff'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Bold.ttf)
+      format('truetype');
 }
 
 body {
@@ -139,7 +146,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0,0,0,.5);
+  background-color: rgba(0, 0, 0, 0.5);
   text-align: left;
   z-index: 2;
 }
@@ -151,7 +158,7 @@ body {
   top: 0;
   right: 0;
   z-index: 3;
-  background-color: rgba(0,0,0,.5);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .btn-capture {
@@ -160,7 +167,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0,0,0,.23);
+  background-color: rgba(0, 0, 0, 0.23);
   outline: none;
   border: none;
 }
@@ -208,7 +215,7 @@ body {
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 100%;
 }
 
