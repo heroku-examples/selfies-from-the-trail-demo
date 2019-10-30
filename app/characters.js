@@ -118,6 +118,42 @@ import srcLandian30 from './images/landian-30.svg'
 import srcLandianBody30 from './images/landian-30-body.svg'
 import srcLandianFace30 from './images/landian-30-face.svg'
 import srcLandianHair30 from './images/landian-30-hair.svg'
+import srcLandian31 from './images/landian-31.svg'
+import srcLandianBody31 from './images/landian-31-body.svg'
+import srcLandianFace31 from './images/landian-31-face.svg'
+import srcLandianHair31 from './images/landian-31-hair.svg'
+import srcLandian32 from './images/landian-32.svg'
+import srcLandianBody32 from './images/landian-32-body.svg'
+import srcLandianFace32 from './images/landian-32-face.svg'
+import srcLandianHair32 from './images/landian-32-hair.svg'
+import srcLandian33 from './images/landian-33.svg'
+import srcLandianBody33 from './images/landian-33-body.svg'
+import srcLandianFace33 from './images/landian-33-face.svg'
+import srcLandianHair33 from './images/landian-33-hair.svg'
+import srcLandian34 from './images/landian-34.svg'
+import srcLandianBody34 from './images/landian-34-body.svg'
+import srcLandianFace34 from './images/landian-34-face.svg'
+import srcLandianHair34 from './images/landian-34-hair.svg'
+import srcLandian35 from './images/landian-35.svg'
+import srcLandianBody35 from './images/landian-35-body.svg'
+import srcLandianFace35 from './images/landian-35-face.svg'
+import srcLandianHair35 from './images/landian-35-hair.svg'
+import srcLandian36 from './images/landian-36.svg'
+import srcLandianBody36 from './images/landian-36-body.svg'
+import srcLandianFace36 from './images/landian-36-face.svg'
+import srcLandianHair36 from './images/landian-36-hair.svg'
+import srcLandian37 from './images/landian-37.svg'
+import srcLandianBody37 from './images/landian-37-body.svg'
+import srcLandianFace37 from './images/landian-37-face.svg'
+// import srcLandianHair37 from './images/landian-37-hair.svg'
+import srcLandian38 from './images/landian-38.svg'
+import srcLandianBody38 from './images/landian-38-body.svg'
+import srcLandianFace38 from './images/landian-38-face.svg'
+// import srcLandianHair38 from './images/landian-38-hair.svg'
+import srcLandian39 from './images/landian-39.svg'
+import srcLandianBody39 from './images/landian-39-body.svg'
+import srcLandianFace39 from './images/landian-39-face.svg'
+// import srcLandianHair39 from './images/landian-39-hair.svg'
 
 const characters = {
   'landian-01': {
@@ -329,6 +365,62 @@ const characters = {
     body: srcLandianBody30,
     face: srcLandianFace30,
     hair: srcLandianHair30
+  },
+  'landian-31': {
+    id: 'landian-31',
+    src: srcLandian31,
+    body: srcLandianBody31,
+    face: srcLandianFace31,
+    hair: srcLandianHair31
+  },
+  'landian-32': {
+    id: 'landian-32',
+    src: srcLandian32,
+    body: srcLandianBody32,
+    face: srcLandianFace32,
+    hair: srcLandianHair32
+  },
+  'landian-34': {
+    id: 'landian-34',
+    src: srcLandian34,
+    body: srcLandianBody34,
+    face: srcLandianFace34,
+    hair: srcLandianHair34
+  },
+  'landian-35': {
+    id: 'landian-35',
+    src: srcLandian35,
+    body: srcLandianBody35,
+    face: srcLandianFace35,
+    hair: srcLandianHair35
+  },
+  'landian-36': {
+    id: 'landian-36',
+    src: srcLandian36,
+    body: srcLandianBody36,
+    face: srcLandianFace36,
+    hair: srcLandianHair36
+  },
+  'landian-37': {
+    id: 'landian-37',
+    src: srcLandian37,
+    body: srcLandianBody37,
+    face: srcLandianFace37,
+    hair: null
+  },
+  'landian-38': {
+    id: 'landian-38',
+    src: srcLandian38,
+    body: srcLandianBody38,
+    face: srcLandianFace38,
+    hair: null
+  },
+  'landian-39': {
+    id: 'landian-39',
+    src: srcLandian39,
+    body: srcLandianBody39,
+    face: srcLandianFace39,
+    hair: null
   }
 }
 
