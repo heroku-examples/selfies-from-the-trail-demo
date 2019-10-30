@@ -105,7 +105,6 @@ import srcLandianHair26 from './images/landian-26-hair.svg'
 import srcLandian27 from './images/landian-27.svg'
 import srcLandianBody27 from './images/landian-27-body.svg'
 import srcLandianFace27 from './images/landian-27-face.svg'
-//import srcLandianHair27 from './images/landian-27-hair.svg'
 import srcLandian28 from './images/landian-28.svg'
 import srcLandianBody28 from './images/landian-28-body.svg'
 import srcLandianFace28 from './images/landian-28-face.svg'
@@ -145,15 +144,12 @@ import srcLandianHair36 from './images/landian-36-hair.svg'
 import srcLandian37 from './images/landian-37.svg'
 import srcLandianBody37 from './images/landian-37-body.svg'
 import srcLandianFace37 from './images/landian-37-face.svg'
-// import srcLandianHair37 from './images/landian-37-hair.svg'
 import srcLandian38 from './images/landian-38.svg'
 import srcLandianBody38 from './images/landian-38-body.svg'
 import srcLandianFace38 from './images/landian-38-face.svg'
-// import srcLandianHair38 from './images/landian-38-hair.svg'
 import srcLandian39 from './images/landian-39.svg'
 import srcLandianBody39 from './images/landian-39-body.svg'
 import srcLandianFace39 from './images/landian-39-face.svg'
-// import srcLandianHair39 from './images/landian-39-hair.svg'
 
 const characters = {
   'landian-01': {
@@ -379,6 +375,13 @@ const characters = {
     body: srcLandianBody32,
     face: srcLandianFace32,
     hair: srcLandianHair32
+  },
+  'landian-33': {
+    id: 'landian-33',
+    src: srcLandian33,
+    body: srcLandianBody33,
+    face: srcLandianFace33,
+    hair: srcLandianHair33
   },
   'landian-34': {
     id: 'landian-34',
