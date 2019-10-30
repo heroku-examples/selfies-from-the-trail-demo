@@ -174,15 +174,16 @@ const App = () => {
       </div>
       {videoReady && !imageUrls && (
         <>
+          <p className="intro">Fill oval with your face. Tap to capture!</p>
           <button
-            className="btn"
+            className="btn-capture"
             onClick={loading ? () => {} : submit}
             disabled={loading}
           >
-            {loading ? 'Loading' : 'Take Selfie'}
+            {loading ? 'Loading' : ''}
           </button>
           {!loading && (
-            <Link to="/" className="text">
+            <Link to="/" className="text restart">
               restart
             </Link>
           )}
@@ -194,39 +195,45 @@ const App = () => {
             <div className="landian">
               <img src={imageUrls.background} />
             </div>
-            <a
-              href={`https://twitter.com/intent/tweet?${qs.stringify({
-                ...config.tweet,
-                url: share.image
-              })}`}
-              className="btn"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Share on Twitter
-            </a>
-            <a
-              className="text"
-              href={imageUrls.background}
-              download={`${config.downloadName}.png`}
-            >
-              download
-            </a>
-            <Link to="/" className="text">
-              restart
-            </Link>
+            <nav className="cta">
+              <a
+                href={`https://twitter.com/intent/tweet?${qs.stringify({
+                  ...config.tweet,
+                  url: share.image
+                })}`}
+                className="btn"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Share on Twitter
+              </a>
+              <div>
+                <a
+                  className="text"
+                  href={imageUrls.background}
+                  download={`${config.downloadName}.png`}
+                >
+                  download
+                </a>
+                <Link to="/" className="text">
+                  restart
+                </Link>
+              </div>
+            </nav>
           </React.Fragment>
         ) : (
           <React.Fragment>
             <div className="landian">
               <img src={imageUrls.character} />
             </div>
-            <button className="btn" onClick={addSelfie}>
-              Add your selfie
-            </button>
-            <button className="text" onClick={() => setImageUrls(null)}>
-              or take another one
-            </button>
+            <nav className="cta">
+              <button className="btn" onClick={addSelfie}>
+                Add your selfie
+              </button>
+              <button className="text" onClick={() => setImageUrls(null)}>
+                or take another one
+              </button>
+            </nav>
           </React.Fragment>
         ))}
     </>
