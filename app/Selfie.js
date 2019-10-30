@@ -54,6 +54,7 @@ const App = () => {
   const [loading, setLoading] = useState(null)
   const [videoReady, setVideoReady] = useState(false)
   const [share, setShare] = useState(false)
+  const [shareLoading, setShareLoading] = useState(false)
 
   const submit = async () => {
     const { videoHeight: height, videoWidth: width } = videoEl
@@ -89,6 +90,9 @@ const App = () => {
   }
 
   const addSelfie = async () => {
+    setError(false)
+    setShareLoading(true)
+
     try {
       const data = await (await api('/save-photo', {
         method: 'POST',
@@ -101,9 +105,11 @@ const App = () => {
         })
       })).json()
       setShare(data)
+      setShareLoading(false)
     } catch (e) {
       setError(e.message)
       setShare(null)
+      setShareLoading(false)
     }
   }
 
@@ -154,14 +160,20 @@ const App = () => {
           ref={hasVideo}
           style={{
             transform: 'rotateY(180deg)',
-            display: loading ? 'none' : 'block'
+            display: loading ? 'none' : 'block',
+            left: videoEl ? videoEl.videoWidth * -0.5 : 0
           }}
           autoPlay
           muted
           playsInline
           onLoadedMetadata={() => setVideoReady(true)}
         />
-        {loading && <img src={loading} />}
+        {loading && (
+          <img
+            src={loading}
+            style={{ left: videoEl ? videoEl.videoWidth * -0.5 : 0 }}
+          />
+        )}
         {videoReady && characterData.fill && (
           <Face
             className="face"
@@ -192,7 +204,7 @@ const App = () => {
       {imageUrls &&
         (share ? (
           <React.Fragment>
-            <div className="landian">
+            <div className="share-image">
               <img src={imageUrls.background} />
             </div>
             <nav className="cta">
@@ -227,12 +239,18 @@ const App = () => {
               <img src={imageUrls.character} />
             </div>
             <nav className="cta">
-              <button className="btn" onClick={addSelfie}>
-                Add your selfie
+              <button
+                className="btn"
+                disabled={shareLoading}
+                onClick={shareLoading ? () => {} : addSelfie}
+              >
+                {shareLoading ? 'Saving...' : 'Add your selfie'}
               </button>
-              <button className="text" onClick={() => setImageUrls(null)}>
-                or take another one
-              </button>
+              {!shareLoading && (
+                <button className="text" onClick={() => setImageUrls(null)}>
+                  or take another one
+                </button>
+              )}
             </nav>
           </React.Fragment>
         ))}
