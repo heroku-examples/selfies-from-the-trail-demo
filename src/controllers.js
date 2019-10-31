@@ -31,14 +31,17 @@ const svgDimensions = async (image) => {
   }
 }
 
-const transformObject = (transform) => (obj) =>
+const transformObject = _.curry((transform, obj) =>
   Object.keys(obj).reduce((acc, key) => {
     acc[key] = transform(obj[key])
     return acc
   }, {})
+)
 
-const scaleObject = (scale) => transformObject((v) => v * scale)
-const roundObject = transformObject((v) => Math.round(v))
+const scaleObject = _.curry((scale, obj) =>
+  transformObject((v) => v * scale, obj)
+)
+const intObject = _.curry((toInt, obj) => transformObject(toInt, obj))
 
 const positionObject = (position) => (obj, bg) => {
   const bottom = bg.height - bg.height * position.bottom
@@ -107,18 +110,19 @@ exports.character = {
 
     const svgData = await svgson.parse(image.toString())
     const face = svgData.children[1].children[0]
-    const faceFill = face.attributes.fill
 
     let dimensions = {}
-
     if (face.type === 'ellipse') {
       const { rx, ry } = face.attributes
-      dimensions = { height: Math.round(ry * 2), width: Math.round(rx * 2) }
+      dimensions = intObject(
+        Math.ceil,
+        scaleObject(2, { height: ry, width: rx })
+      )
     } else {
       dimensions = await svgToPng(image).then(getPngAlphaBounds)
     }
 
-    return { fill: faceFill, ...dimensions }
+    return { fill: face.attributes.fill, ...dimensions }
   }
 }
 
@@ -278,7 +282,10 @@ exports.submit = {
     const characterResize = await sharp(characterImage)
       .resize({
         withoutEnlargement: true,
-        ..._.pick(roundObject(scaleCharacterToBg(backgroundDims)), 'height')
+        ..._.pick(
+          intObject(Math.round, scaleCharacterToBg(backgroundDims)),
+          'height'
+        )
       })
       .png()
       .toBuffer()
@@ -289,7 +296,10 @@ exports.submit = {
         {
           input: characterResize,
           ..._.pick(
-            roundObject(characterPosition(characterDims, backgroundDims)),
+            intObject(
+              Math.round,
+              characterPosition(characterDims, backgroundDims)
+            ),
             'top',
             'left'
           )
