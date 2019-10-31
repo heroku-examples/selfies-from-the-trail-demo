@@ -18,10 +18,12 @@ const getContentType = (ext) => {
 
 exports.upload = (key, body) => {
   const contentType = getContentType(path.extname(key).slice(1))
+  const fileKey = `public/${key}`
+  const s3Domain = `http://${config.aws.bucket}.s3.amazonaws.com/`
   return new Promise((resolve, reject) => {
     s3.putObject(
       {
-        Key: `public/${key}`,
+        Key: fileKey,
         Body: body,
         Bucket: config.aws.bucket,
         ContentType: contentType
@@ -32,7 +34,8 @@ exports.upload = (key, body) => {
         resolve(
           Object.assign(
             {
-              url: `http://${config.aws.bucket}.s3.amazonaws.com/public/${key}`
+              s3Url: `${s3Domain}${fileKey}`,
+              url: `${config.shareDomain || s3Domain}${fileKey}`
             },
             data
           )
