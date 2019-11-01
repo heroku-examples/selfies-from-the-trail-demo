@@ -16,17 +16,21 @@ const getContentType = (ext) => {
   return map[ext] || map.html
 }
 
-exports.upload = (key, body) => {
-  const contentType = getContentType(path.extname(key).slice(1))
-  const fileKey = `public/${key}`
-  const s3Domain = `http://${config.aws.bucket}.s3.amazonaws.com/`
+exports.upload = (filePath, body) => {
+  const s3Path = `public/${filePath}`
+
+  const s3Url = new URL(
+    s3Path,
+    `http://${config.aws.bucket}.s3.amazonaws.com`
+  ).toString()
+
   return new Promise((resolve, reject) => {
     s3.putObject(
       {
-        Key: fileKey,
+        Key: s3Path,
         Body: body,
         Bucket: config.aws.bucket,
-        ContentType: contentType
+        ContentType: getContentType(path.extname(filePath).slice(1))
       },
       (err, data) => {
         if (err) return reject(err)
@@ -34,8 +38,10 @@ exports.upload = (key, body) => {
         resolve(
           Object.assign(
             {
-              s3Url: `${s3Domain}${fileKey}`,
-              url: `${config.shareDomain || s3Domain}${fileKey}`
+              s3Url: s3Url,
+              url: config.shareDomain
+                ? new URL(filePath, config.shareDomain).toString()
+                : s3Url
             },
             data
           )

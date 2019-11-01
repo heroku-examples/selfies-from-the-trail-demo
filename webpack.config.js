@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
 const config = require('getconfig')
-const isDev = process.env.NODE_ENV !== 'production'
+const isDev = config.env.isDev
 
 const landians = _.shuffle(
   fs
