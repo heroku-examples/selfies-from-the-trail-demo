@@ -38,6 +38,16 @@ git commit -m "Build dist"
 git push
 ```
 
+## Share Domain
+
+The resulting images and html file (used for the Twitter Card) are uploaded and served via S3 and are publically readable.
+
+An environment variable of `SHARE_DOMAIN` can be set to any domain name including protocol (eg `https://share.domain.net`) which will be used as the public source for all user readable images and files.
+
+If using a custom `SHARE_DOMAIN`, that domain will have to be setup to serve files from S3 with the following structure:
+
+`http://${BUCKET_NAME}.s3.amazonaws.com/public/${FILE_NAME}` --> `${SHARE_DOMAIN}/${FILE_NAME}`
+
 ## Client Config
 
-The client config values are located in `app/config.js`.
+The client config values are located as part of the server config values in `config/` to make it easier to edit and share values across the client/server. To ensure that no sensitive values are written to the client, the client config values are whitelisted inside `webpack.config.js`.

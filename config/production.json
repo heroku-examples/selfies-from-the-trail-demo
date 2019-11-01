@@ -2,6 +2,5 @@
   "hapi": {
     "host": "$$HOST",
     "port": "$$PORT::number"
-  },
-  "shareDomain": "https://share.heroku.com"
+  }
 }

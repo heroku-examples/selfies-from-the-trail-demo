@@ -10,7 +10,7 @@
     "region": "$BUCKETEER_AWS_REGION",
     "bucket": "$BUCKETEER_BUCKET_NAME"
   },
-  "shareDomain": "https://share-staging.heroku.com",
+  "shareDomain": "$$SHARE_DOMAIN",
   "twitter": {
     "card": {
       "title": "Your Title",

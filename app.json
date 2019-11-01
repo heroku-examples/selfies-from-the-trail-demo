@@ -10,7 +10,7 @@
   ],
   "env": {
     "NPM_CONFIG_PRODUCTION": {
-      "description": "If you are building and committing the clientside app locally, then this will speed up deploys.",
+      "description": "If you are building and committing the clientside app locally, then this will speed up deploys",
       "value": "true",
       "required": false
     },
@@ -22,6 +22,11 @@
     "HEROKU_TOKEN": {
       "description": "A Heroku auth token that can be used to get the environment variables of the server app",
       "required": true
+    },
+    "SHARE_DOMAIN": {
+      "description": "The domain to share images on",
+      "value": "https://share.heroku.com",
+      "required": false
     }
   }
 }

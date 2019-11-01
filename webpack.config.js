@@ -7,6 +7,8 @@ const _ = require('lodash')
 const config = require('getconfig')
 const { isDev } = config.getconfig
 
+const CLIENT_CONFIG_KEYS = ['twitter.tweet', 'downloadName']
+
 const landians = _.shuffle(
   fs
     .readdirSync('./app/images')
@@ -58,7 +60,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.LANDIAN_SHUFFLE': JSON.stringify(landians),
       'process.env.CLIENT_CONFIG': JSON.stringify(
-        _.pick(config, 'twitter.tweet', 'downloadName')
+        _.pick(config, ...CLIENT_CONFIG_KEYS)
       )
     }),
     !isDev && new CleanWebpackPlugin()
