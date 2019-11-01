@@ -181,16 +181,16 @@ body {
 
 .full,
 .full #root {
-  height: 100vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .full .landian {
   width: 100%;
   margin-bottom: 30px;
-  height: calc(95vh - 140px);
+  height: calc(85vh - 140px);
   position: relative;
 }
 
@@ -203,8 +203,8 @@ body {
 }
 
 .full .share-image {
-  width: calc(100vh - 100px);
-  height: calc(100vh - 100px);
+  width: calc(85vh - 140px);
+  height: calc(85vh - 140px);
   max-width: 100vw;
   margin: 0 auto 20px;
   position: relative;
