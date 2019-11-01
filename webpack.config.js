@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
 const config = require('getconfig')
-const isDev = config.env.isDev
+const { isDev } = config.getconfig
 
 const landians = _.shuffle(
   fs
