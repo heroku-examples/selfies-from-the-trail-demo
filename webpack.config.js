@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
+const config = require('getconfig')
 const isDev = process.env.NODE_ENV !== 'production'
 
 const landians = _.shuffle(
@@ -55,7 +56,10 @@ module.exports = {
       favicon: 'app/images/favicon.ico'
     }),
     new webpack.DefinePlugin({
-      'process.env.LANDIAN_SHUFFLE': JSON.stringify(landians)
+      'process.env.LANDIAN_SHUFFLE': JSON.stringify(landians),
+      'process.env.CLIENT_CONFIG': JSON.stringify(
+        _.pick(config, 'twitter.tweet', 'downloadName')
+      )
     }),
     !isDev && new CleanWebpackPlugin()
   ].filter(Boolean)

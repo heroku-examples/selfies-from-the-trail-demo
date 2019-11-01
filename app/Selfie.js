@@ -204,7 +204,7 @@ const App = () => {
             <nav className="cta">
               <a
                 href={`https://twitter.com/intent/tweet?${qs.stringify({
-                  ...config.tweet,
+                  ...config.twitter.tweet,
                   url: share.html
                 })}`}
                 className="btn"

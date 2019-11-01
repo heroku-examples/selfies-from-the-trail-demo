@@ -8,6 +8,7 @@
     "dotenv": "^8.2.0",
     "getconfig": "^4.5.0",
     "hapi-pino": "^6.3.0",
+    "html-tagged-literals": "^1.0.2",
     "lodash": "^4.17.15",
     "no-kafka": "^3.4.3",
     "pngjs": "^3.4.0",

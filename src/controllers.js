@@ -5,6 +5,8 @@ const svgson = require('svgson')
 const { PNG } = require('pngjs')
 const _ = require('lodash')
 const UUID = require('uuid')
+const config = require('getconfig')
+const { minify: minifyHtml } = require('html-tagged-literals')
 const aws = require('./aws')
 
 const readAppImage = (image) =>
@@ -122,7 +124,10 @@ exports.character = {
       dimensions = await svgToPng(image).then(getPngAlphaBounds)
     }
 
-    return { fill: face.attributes.fill, ...dimensions }
+    const res = { fill: face.attributes.fill, ...dimensions }
+    req.log(['character'], res)
+
+    return res
   }
 }
 
@@ -139,25 +144,40 @@ exports.savePhoto = {
 
     const htmlUpload = await aws.upload(
       uploadId,
-      `<!DOCTYPE html>
-          <html lang="en">
-            <head>
-              <meta charset="utf-8" />
-              <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-              <title>Test title</title>
-              <meta name="viewport" content="width=device-width, initial-scale=1" />
-              <meta name="twitter:card" content="summary_large_image">
-              <meta name="twitter:site" content="@yourwebsite">
-              <meta name="twitter:creator" content="@yourtwitterhandle">
-              <meta name="twitter:title" content="your title">
-              <meta name="twitter:description" content="your description.">
-              <meta name="twitter:image" content="${imageUpload.url}">
-            </head>
-            <body>
-              <img src=${imageUpload.url} />
-            </body>
-          </html>`
+      minifyHtml`
+        <!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+            <title>Test title</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="twitter:card" content="summary_large_image">
+            <meta name="twitter:title" content="${config.twitter.card.title}">
+            <meta name="twitter:image" content="${imageUpload.url}">
+            ${
+              config.twitter.card.site
+                ? `<meta name="twitter:site" content="${config.twitter.card.site}">`
+                : ''
+            }
+            ${
+              config.twitter.card.description
+                ? `<meta name="twitter:description" content="${config.twitter.card.description}">`
+                : ''
+            }
+          </head>
+          <body>
+            <img src=${imageUpload.url} />
+          </body>
+        </html>
+      `
     )
+
+    req.log(['save-files'], {
+      image: imageUpload,
+      character: characterUpload,
+      html: htmlUpload
+    })
 
     const res = {
       image: imageUpload.url,
@@ -168,7 +188,7 @@ exports.savePhoto = {
     req.server.plugins.kafka.sendSubmission({
       ...res,
       uploadId,
-      user
+      user: _.pick(user, 'id')
     })
 
     return res
