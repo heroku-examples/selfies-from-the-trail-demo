@@ -3,5 +3,5 @@
     "host": "$$HOST",
     "port": "$$PORT::number"
   },
-  "shareDomain": null
+  "shareDomain": "https://share-staging.heroku.com"
 }
