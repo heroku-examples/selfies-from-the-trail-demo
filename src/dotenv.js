@@ -52,8 +52,12 @@ if (process.env.NODE_ENV === 'production') {
     })
 
   const serverAppStatusUrl = `${web_url}api/send-attendee-status`
-  const status = curl(`-X POST ${serverAppStatusUrl}`)
-  log(`POSTing to ${serverAppStatusUrl} - ${JSON.stringify(status)}`)
+  try {
+    const status = curl(`-X POST ${serverAppStatusUrl}`)
+    log(`POSTing to ${serverAppStatusUrl} - ${JSON.stringify(status)}`)
+  } catch (e) {
+    log(`Could not POST to ${serverAppStatusUrl} - ${e.message}`)
+  }
 
   const config = herokuCurl({
     appName: SERVER_APP_NAME,
