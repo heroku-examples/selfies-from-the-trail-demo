@@ -44,12 +44,10 @@ if (process.env.NODE_ENV === 'production') {
     )
   }
 
-  const { web_url } =
-    { web_url: 'http://localhost:8080/' } ||
-    herokuCurl({
-      appName: SERVER_APP_NAME,
-      token: HEROKU_TOKEN
-    })
+  const { web_url } = herokuCurl({
+    appName: SERVER_APP_NAME,
+    token: HEROKU_TOKEN
+  })
 
   const serverAppStatusUrl = `${web_url}api/send-attendee-status`
   try {
