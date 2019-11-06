@@ -25,10 +25,11 @@ const start = async () => {
     plugin: require('hapi-pino'),
     options: {
       prettyPrint: IS_DEV,
-      redact: ['tls.cert', 'tls.key']
+      redact: !IS_DEV && ['*.tls.cert', '*.tls.key', '*.aws.id', '*.aws.secret']
     }
   })
 
+  server.log(['start', 'getconfig'], config)
   server.log(['start'], hapiConfig)
 
   if (IS_DEV) {
