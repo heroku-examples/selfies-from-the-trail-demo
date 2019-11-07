@@ -24,8 +24,7 @@
       "required": true
     },
     "SHARE_DOMAIN": {
-      "description": "The domain to share images on",
-      "value": "https://share.heroku.com",
+      "description": "The domain to share images on. Should start with http(s)://",
       "required": false
     }
   }
