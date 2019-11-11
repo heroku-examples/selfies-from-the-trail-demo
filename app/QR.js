@@ -13,6 +13,9 @@ const Character = () => {
         <div id="QR-code">
           <QRCode renderAs="svg" value={entryUrl} width="100%" height="100%" />
         </div>
+        <p style={{ marginTop: 20 }}>
+          (zoom in to QR code with your camera app)
+        </p>
       </div>
     </div>
   )
