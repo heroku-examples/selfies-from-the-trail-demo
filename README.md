@@ -1,6 +1,6 @@
-# Pure Heroku Demo Attendee App
+# Selfies from the Trail Demo app
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/andyet/pure-heroku-demo-attendee)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku-examples/selfies-from-the-trail-demo)
 
 ## Local Development
 
@@ -9,7 +9,7 @@ In order to speed up local development, env vars can be written to a `.env` file
 A helper file is included to write the necessary values to the `.env` file:
 
 ```sh
-./bin/write-env pure-heroku-demo-staging
+./bin/write-env selfies-from-the-trail-staging
 ```
 
 Then you should be able to run the server locally:
