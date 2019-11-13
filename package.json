@@ -1,0 +1,97 @@
+{
+  "name": "pure-heroku-demo",
+  "version": "1.0.0",
+  "dependencies": {
+    "@hapi/hapi": "^18.4.0",
+    "@hapi/inert": "^5.2.2",
+    "aws-sdk": "^2.558.0",
+    "dotenv": "^8.2.0",
+    "getconfig": "^4.5.0",
+    "hapi-pino": "^6.3.0",
+    "html-tagged-literals": "^1.0.2",
+    "lodash": "^4.17.15",
+    "no-kafka": "^3.4.3",
+    "pngjs": "^3.4.0",
+    "sharp": "^0.23.2",
+    "svgson": "^4.0.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.2.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "file-loader": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "prettier": "^1.18.2",
+    "qrcode.react": "^0.9.3",
+    "query-string": "^6.8.3",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-router-dom": "^5.1.2",
+    "style-loader": "^1.0.0",
+    "url-loader": "^2.2.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0"
+  },
+  "engines": {
+    "node": "10.15.3",
+    "npm": "6.4.1"
+  },
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "extends": [
+      "eslint:recommended",
+      "plugin:prettier/recommended",
+      "plugin:react/recommended"
+    ],
+    "rules": {
+      "no-console": 2,
+      "react/prop-types": 0
+    },
+    "parserOptions": {
+      "ecmaVersion": 10,
+      "sourceType": "module"
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true
+    },
+    "settings": {
+      "react": {
+        "pragma": "React",
+        "version": "detect"
+      }
+    }
+  },
+  "eslintIgnore": [
+    "dist/*"
+  ],
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "arrowParens": "always"
+  },
+  "private": true,
+  "scripts": {
+    "build": "NODE_ENV=production webpack",
+    "dev": "NODE_ENV=development node server.js",
+    "eslint": "eslint --fix .",
+    "heroku-postbuild": "if [ -d \"dist\" ]; then echo 'dist exists, skipping build'; else npm run build; fi",
+    "lint": "npm run eslint && npm run prettier:list",
+    "nodemon": "nodemon --exec 'npm run dev' -e 'js json' --ignore app",
+    "prettier": "prettier --write '**/*.{js,md,css,json,scss}'",
+    "prettier:list": "prettier --list-different '**/*.{js,md,css,json,scss}'",
+    "start": "node server.js"
+  }
+}

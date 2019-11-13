@@ -1,0 +1,28 @@
+{
+  "kafka": {
+    "url": "$KAFKA_URL",
+    "submissionTopic": "${KAFKA_PREFIX}submission-app",
+    "backgroundTopic": "${KAFKA_PREFIX}change-background"
+  },
+  "aws": {
+    "id": "$BUCKETEER_AWS_ACCESS_KEY_ID",
+    "secret": "$BUCKETEER_AWS_SECRET_ACCESS_KEY",
+    "region": "$BUCKETEER_AWS_REGION",
+    "bucket": "$BUCKETEER_BUCKET_NAME"
+  },
+  "shareDomain": "$$SHARE_DOMAIN",
+  "twitter": {
+    "card": {
+      "title": "Your Title",
+      "description": "Your Description",
+      "site": "@yourwebsite"
+    },
+    "tweet": {
+      "text": "A message to tweet along with the url",
+      "hashtags": "dreamforce,heroku",
+      "via": "heroku",
+      "related": "heroku,salesforce"
+    }
+  },
+  "downloadName": "df-heroku-booth-2019"
+}

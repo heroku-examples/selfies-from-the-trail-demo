@@ -1,0 +1,6 @@
+{
+  "hapi": {
+    "host": "$$HOST",
+    "port": "$$PORT::number"
+  }
+}

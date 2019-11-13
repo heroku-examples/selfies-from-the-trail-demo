@@ -1,0 +1,31 @@
+{
+  "name": "Pure Heroku Demo Attendee",
+  "description": "",
+  "repository": "https://github.com/andyet/pure-heroku-demo-attendee",
+  "success_url": "/qr",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "NPM_CONFIG_PRODUCTION": {
+      "description": "If you are building and committing the clientside app locally, then this will speed up deploys",
+      "value": "true",
+      "required": false
+    },
+    "SERVER_APP_NAME": {
+      "description": "The name of the server app to connect to",
+      "value": "pure-heroku-demo",
+      "required": true
+    },
+    "HEROKU_TOKEN": {
+      "description": "A Heroku auth token that can be used to get the environment variables of the server app",
+      "required": true
+    },
+    "SHARE_DOMAIN": {
+      "description": "The domain to share images on. Should start with http(s)://",
+      "required": false
+    }
+  }
+}

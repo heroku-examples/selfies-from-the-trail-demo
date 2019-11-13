@@ -1,0 +1,247 @@
+@font-face {
+  font-family: salesforce-sans;
+  font-style: normal;
+  font-weight: 200;
+  src: url(https://www.herokucdn.com/fonts/SalesforceSans-Book.eot?#iefix)
+      format('embedded-opentype'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Book.woff) format('woff'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Book.ttf)
+      format('truetype');
+}
+
+@font-face {
+  font-family: salesforce-sans;
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://www.herokucdn.com/fonts/SalesforceSans-Regular.eot?#iefix)
+      format('embedded-opentype'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Regular.woff)
+      format('woff'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Regular.ttf)
+      format('truetype');
+}
+
+@font-face {
+  font-family: salesforce-sans;
+  font-style: normal;
+  font-weight: 700;
+  src: url(https://www.herokucdn.com/fonts/SalesforceSans-Bold.eot?#iefix)
+      format('embedded-opentype'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Bold.woff) format('woff'),
+    url(https://www.herokucdn.com/fonts/SalesforceSans-Bold.ttf)
+      format('truetype');
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
+  background-color: #1679b7;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+    to bottom,
+    #001432 0,
+    #0b4472 300px,
+    #1679b7 800px
+  );
+  font-family: 'salesforce-sans', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: white;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+.landian-list {
+  max-width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.landian-list .landian {
+  margin-bottom: 20px;
+}
+
+.landian-list .landian img {
+  display: block;
+  width: 30vw;
+}
+
+.landian {
+  position: relative;
+}
+
+.intro {
+  margin-top: 20px;
+}
+
+.cta {
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.btn {
+  padding: 10px 40px;
+  background-color: #032041;
+  border: 1px solid #2579ad;
+  border-radius: 4px;
+  font-size: 18px;
+  color: white;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.text {
+  margin: 0 10px;
+  padding: 10px 10px 15px;
+  display: inline-block;
+  font-size: 12px;
+  color: white;
+  text-decoration: none;
+  background: none;
+  border: none;
+}
+
+/* selfie */
+.selfie-frame {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: #111;
+  overflow: hidden;
+}
+
+.selfie-frame video {
+  position: absolute;
+  left: 50%;
+}
+
+.selfie-frame > img {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.selfie-frame .face {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.5;
+}
+
+.selfie-frame + .intro {
+  width: 100vw;
+  margin: 0;
+  padding: 5px 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  text-align: left;
+  z-index: 2;
+}
+
+.selfie-frame ~ .text.restart {
+  position: fixed;
+  margin: 0;
+  padding: 6px 10px;
+  top: 0;
+  right: 0;
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.btn-capture {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.23);
+  outline: none;
+  border: none;
+}
+
+/* views */
+
+#root {
+  width: 100vw;
+  overflow-x: hidden;
+}
+
+.full,
+.full #root {
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.full .landian {
+  width: 100%;
+  margin-bottom: 30px;
+  height: calc(85vh - 140px);
+  position: relative;
+}
+
+.full .landian img {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.full .share-image {
+  width: calc(85vh - 140px);
+  height: calc(85vh - 140px);
+  max-width: 100vw;
+  margin: 0 auto 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.full .share-image img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+/* QR code and URL overlay */
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(2, 30, 63, 0.9);
+  z-index: 20;
+  text-align: center;
+  color: white;
+}
+
+.overlay h1 {
+  margin-bottom: 5vh;
+  font-weight: 700;
+  font-size: 7vw;
+}
+
+.overlay #QR-code {
+  margin: 0 auto;
+  width: 18vw;
+}
