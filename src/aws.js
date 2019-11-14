@@ -16,7 +16,26 @@ const getContentType = (ext) => {
   return map[ext] || map.html
 }
 
-exports.upload = (filePath, body) => {
+exports.keyAvailable = async (filePath) => {
+  const s3Path = `public/${filePath}`
+
+  try {
+    await s3
+      .getObject({
+        Key: s3Path,
+        Bucket: config.aws.bucket
+      })
+      .promise()
+  } catch (e) {
+    if (e.code === 'NoSuchKey') {
+      return true
+    }
+  }
+
+  return false
+}
+
+exports.upload = async (filePath, body) => {
   const s3Path = `public/${filePath}`
 
   const s3Url = new URL(
@@ -24,29 +43,22 @@ exports.upload = (filePath, body) => {
     `http://${config.aws.bucket}.s3.amazonaws.com`
   ).toString()
 
-  return new Promise((resolve, reject) => {
-    s3.putObject(
-      {
-        Key: s3Path,
-        Body: body,
-        Bucket: config.aws.bucket,
-        ContentType: getContentType(path.extname(filePath).slice(1))
-      },
-      (err, data) => {
-        if (err) return reject(err)
+  const resp = await s3
+    .putObject({
+      Key: s3Path,
+      Body: body,
+      Bucket: config.aws.bucket,
+      ContentType: getContentType(path.extname(filePath).slice(1))
+    })
+    .promise()
 
-        resolve(
-          Object.assign(
-            {
-              s3Url: s3Url,
-              url: config.shareDomain
-                ? new URL(filePath, config.shareDomain).toString()
-                : s3Url
-            },
-            data
-          )
-        )
-      }
-    )
-  })
+  return Object.assign(
+    {
+      s3Url: s3Url,
+      url: config.shareDomain
+        ? new URL(filePath, config.shareDomain).toString()
+        : s3Url
+    },
+    resp
+  )
 }

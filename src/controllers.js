@@ -6,8 +6,15 @@ const { PNG } = require('pngjs')
 const _ = require('lodash')
 const UUID = require('uuid')
 const config = require('getconfig')
+const pRetry = require('p-retry')
 const { minify: minifyHtml } = require('html-tagged-literals')
 const aws = require('./aws')
+
+const generateUploadId = (length = 5) => {
+  // Less ambiguous character set (no o, 0, 1, l, i, etc)
+  const c = 'abcdefghjkmnpqrstuvwxyz23456789'
+  return _.times(length, () => c.charAt(_.random(c.length))).join('')
+}
 
 const readAppImage = (image) =>
   fs.readFile(path.resolve(__dirname, '..', 'app', 'images', image))
@@ -135,16 +142,24 @@ exports.savePhoto = {
   handler: async (req) => {
     const user = req.state.data || {}
     const { image, character } = req.payload
-    const uploadId = UUID.v4()
 
-    const [imageUpload, characterUpload] = await Promise.all([
-      aws.upload(`${uploadId}.png`, base64ImgToBuf(image)),
-      aws.upload(`${uploadId}-c.png`, base64ImgToBuf(character))
-    ])
+    let uploadId = generateUploadId()
 
-    const htmlUpload = await aws.upload(
-      uploadId,
-      minifyHtml`
+    const upload = async () => {
+      const keyAvailable = await aws.keyAvailable(uploadId)
+
+      if (!keyAvailable) {
+        throw new Error('Retrying this')
+      }
+
+      const [imageUpload, characterUpload] = await Promise.all([
+        aws.upload(`${uploadId}.png`, base64ImgToBuf(image)),
+        aws.upload(`${uploadId}-c.png`, base64ImgToBuf(character))
+      ])
+
+      const htmlUpload = await aws.upload(
+        uploadId,
+        minifyHtml`
         <!DOCTYPE html>
         <html lang="en">
           <head>
@@ -171,7 +186,27 @@ exports.savePhoto = {
           </body>
         </html>
       `
-    )
+      )
+
+      return {
+        imageUpload,
+        characterUpload,
+        htmlUpload
+      }
+    }
+
+    const { imageUpload, characterUpload, htmlUpload } = await pRetry(upload, {
+      retries: 5,
+      onFailedAttempt: (err) => {
+        const failedId = uploadId
+        uploadId = generateUploadId()
+        req.log(['save-files', 'retry', 'warn'], {
+          failedId,
+          newId: uploadId,
+          attemptNumber: err.attemptNumber
+        })
+      }
+    })
 
     req.log(['save-files'], {
       image: imageUpload,
