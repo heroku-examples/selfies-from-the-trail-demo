@@ -25,7 +25,7 @@
     },
     "SHARE_DOMAIN": {
       "description": "The domain to share images on. Should start with http(s)://",
-      "value": "https://selfie.camp"
+      "value": "https://selfie.camp",
       "required": false
     }
   }
