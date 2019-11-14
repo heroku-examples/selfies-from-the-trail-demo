@@ -13,7 +13,7 @@ const aws = require('./aws')
 const generateUploadId = (length = config.upload.keyLength) => {
   // Less ambiguous character set (no o, 0, 1, l, i, etc)
   const c = 'abcdefghjkmnpqrstuvwxyz23456789'
-  return _.times(length, () => c.charAt(_.random(c.length))).join('')
+  return _.times(length, () => c.charAt(_.random(c.length - 1))).join('')
 }
 
 const readAppImage = (image) =>
