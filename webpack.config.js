@@ -53,7 +53,7 @@ module.exports = {
   plugins: [
     isDev && new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      title: 'Pure Heroku Demo',
+      title: 'Selfies from the Trail',
       template: 'app/index.html',
       favicon: 'app/images/favicon.ico'
     }),
