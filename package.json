@@ -11,6 +11,7 @@
     "html-tagged-literals": "^1.0.2",
     "lodash": "^4.17.15",
     "no-kafka": "^3.4.3",
+    "p-retry": "^4.2.0",
     "pngjs": "^3.4.0",
     "sharp": "^0.23.2",
     "svgson": "^4.0.0",
