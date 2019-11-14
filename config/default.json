@@ -10,7 +10,10 @@
     "region": "$BUCKETEER_AWS_REGION",
     "bucket": "$BUCKETEER_BUCKET_NAME"
   },
-  "shareDomain": "$$SHARE_DOMAIN",
+  "upload": {
+    "keyLength": 5,
+    "domain": "$$SHARE_DOMAIN"
+  },
   "twitter": {
     "card": {
       "title": "Your Title",

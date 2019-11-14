@@ -55,8 +55,8 @@ exports.upload = async (filePath, body) => {
   return Object.assign(
     {
       s3Url: s3Url,
-      url: config.shareDomain
-        ? new URL(filePath, config.shareDomain).toString()
+      url: config.upload.domain
+        ? new URL(filePath, config.upload.domain).toString()
         : s3Url
     },
     resp
