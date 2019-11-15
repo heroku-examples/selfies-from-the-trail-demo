@@ -1,0 +1,7 @@
+{
+  "kafka": {
+    "prefix": "$$KAFKA_PREFIX",
+    "submissionTopic": "${self.kafka.prefix}selfie-topic",
+    "backgroundTopic": "${self.kafka.prefix}change-background"
+  }
+}
