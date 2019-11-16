@@ -216,8 +216,9 @@ const App = () => {
               <div>
                 <a
                   className="text"
-                  href={imageUrls.background}
-                  download={`${config.downloadName}.png`}
+                  href={`${share.html}.png`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   download
                 </a>
