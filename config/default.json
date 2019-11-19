@@ -17,12 +17,12 @@
     "card": {
       "title": "Friends from the Trail",
       "description": "Hanging out with my friends from the trail",
-      "site": "@yourwebsite"
+      "site": "@heroku"
     },
     "tweet": {
-      "text": "Welcome to #DF19!",
-      "hashtags": "dreamforce,heroku",
-      "via": "heroku",
+      "text": "Hanging out at the @heroku booth at Dreamforce #DF19! Stop by to make your own selfie 🤳!",
+      "hashtags": "dreamforce,heroku,selfie",
+      "via": "",
       "related": "heroku,salesforce"
     }
   },
