@@ -229,7 +229,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(2, 30, 63, 0.9);
   z-index: 20;
   text-align: center;
   color: white;
