@@ -15,12 +15,12 @@
   },
   "twitter": {
     "card": {
-      "title": "Your Title",
-      "description": "Your Description",
+      "title": "Friends from the Trail",
+      "description": "Hanging out with my friends from the trail",
       "site": "@yourwebsite"
     },
     "tweet": {
-      "text": "A message to tweet along with the url",
+      "text": "Welcome to #DF19!",
       "hashtags": "dreamforce,heroku",
       "via": "heroku",
       "related": "heroku,salesforce"
