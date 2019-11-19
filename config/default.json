@@ -20,9 +20,7 @@
       "site": "@heroku"
     },
     "tweet": {
-      "text": "Hanging out at the @heroku booth at Dreamforce #DF19! Stop by to make your own selfie 🤳!",
-      "hashtags": "dreamforce,heroku,selfie",
-      "via": "",
+      "text": "Hanging out at the @heroku booth at Dreamforce #DF19! Stop by to make your own selfie 🤳! #dreamforce #heroku #selfie",
       "related": "heroku,salesforce"
     }
   },
