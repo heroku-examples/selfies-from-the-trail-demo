@@ -108,19 +108,14 @@ const getPngAlphaBounds = (image) =>
 
 exports.serverApp = {
   handler: async (req) => {
-    let serverAppUrl
-    try {
-      // Allow for  the serverAppName config value to be a full url for easier
-      // testing locally
-      serverAppUrl = new URL(config.serverAppName)
-    } catch (e) {
-      if (e.code === 'ERR_INVALID_URL') {
-        serverAppUrl = new URL(`https://${config.serverAppName}.herokuapp.com`)
-      } else {
-        throw e
-      }
-    }
-    serverAppUrl.pathname = '/api/attendee-app'
+    // Allow for the serverAppName config value to be a full url for easier
+    // testing locally
+    const serverAppUrl = new URL(
+      '/api/attendee-app',
+      config.serverAppName.startsWith('http')
+        ? config.serverAppName
+        : `https://${config.serverAppName}.herokuapp.com`
+    )
 
     const res = await (await fetch(serverAppUrl.toString(), {
       method: 'POST',
