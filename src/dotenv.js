@@ -36,7 +36,7 @@ if (process.env.NODE_ENV === 'production') {
   // To make this app easier to setup, in production the only env vars it needs to be bootstrapped
   // with are the name of a heroku app and a token that can be used to fetch all
   // the env vars from that app and set them for this one.
-  const { SERVER_APP_NAME, HEROKU_TOKEN } = process.env
+  const { SERVER_APP_NAME, HEROKU_TOKEN, HEROKU_APP_NAME } = process.env
 
   if (!SERVER_APP_NAME || !HEROKU_TOKEN) {
     throw new Error(
@@ -49,9 +49,11 @@ if (process.env.NODE_ENV === 'production') {
     token: HEROKU_TOKEN
   })
 
-  const serverAppStatusUrl = `${web_url}api/send-attendee-status`
+  const serverAppStatusUrl = `${web_url}api/attendee-app`
   try {
-    const status = curl(`-X POST ${serverAppStatusUrl}`)
+    const status = curl(
+      `-X POST ${serverAppStatusUrl} -d "name=${HEROKU_APP_NAME}"`
+    )
     log(`POSTing to ${serverAppStatusUrl} - ${JSON.stringify(status)}`)
   } catch (e) {
     log(`Could not POST to ${serverAppStatusUrl} - ${e.message}`)
