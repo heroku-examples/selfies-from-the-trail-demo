@@ -117,12 +117,15 @@ exports.serverApp = {
         : `https://${config.serverAppName}.herokuapp.com`
     )
 
+    const payload = req.payload
+    req.log(['server-app'], { url: serverAppUrl, payload })
+
     const res = await (await fetch(serverAppUrl.toString(), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(req.payload)
+      body: JSON.stringify(payload)
     })).json()
 
     return res
