@@ -137,7 +137,7 @@ exports.serverApp = {
 exports.changeBackground = {
   handler: async (req) => {
     req.server.plugins.kafka.changeBackground()
-    return { success: true }
+    return { status: 'success' }
   }
 }
 
