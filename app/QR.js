@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import QRCode from 'qrcode.react'
+import api from './api'
 
 const Character = () => {
   const url = new URL(window.location)
   url.pathname = '/'
   const entryUrl = url.toString()
+  const [herokuAppName] = url.hostname.split('.')
+
+  useEffect(() => {
+    api('/server-app', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: herokuAppName
+      })
+    })
+  }, [herokuAppName])
 
   return (
     <div className="overlay">

@@ -9,6 +9,7 @@
     "region": "$BUCKETEER_AWS_REGION",
     "bucket": "$BUCKETEER_BUCKET_NAME"
   },
+  "serverAppName": "$$SERVER_APP_NAME",
   "upload": {
     "keyLength": 5,
     "domain": "$$SHARE_DOMAIN"

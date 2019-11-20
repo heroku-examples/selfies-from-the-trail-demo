@@ -20,5 +20,10 @@ module.exports = [
     method: 'POST',
     path: '/api/change-bg',
     config: controllers.changeBackground
+  },
+  {
+    method: 'POST',
+    path: '/api/server-app',
+    config: controllers.serverApp
   }
 ]
