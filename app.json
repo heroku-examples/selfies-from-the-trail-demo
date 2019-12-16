@@ -2,7 +2,6 @@
   "name": "Selfies from the Trail",
   "description": "",
   "repository": "https://github.com/heroku-examples/selfies-from-the-trail-demo",
-  "success_url": "/qr",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
