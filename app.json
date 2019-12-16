@@ -16,12 +16,11 @@
     },
     "SERVER_APP_NAME": {
       "description": "The name of the server app to connect to",
-      "value": "friends-from-the-trail",
-      "required": true
+      "required": false
     },
     "HEROKU_TOKEN": {
       "description": "A Heroku auth token that can be used to get the environment variables of the server app",
-      "required": true
+      "required": false
     },
     "SHARE_DOMAIN": {
       "description": "The domain to share images on. Should start with http(s)://",
