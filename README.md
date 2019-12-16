@@ -1,6 +1,6 @@
 # Selfies from the Trail Demo app
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku-examples/selfies-from-the-trail-demo)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/heroku-examples/selfies-from-the-trail-demo/tree/simple-demo)
 
 ## Local Development
 
