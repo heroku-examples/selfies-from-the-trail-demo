@@ -2,7 +2,7 @@
   "name": "pure-heroku-demo",
   "version": "1.0.0",
   "dependencies": {
-    "@hapi/hapi": "^18.4.0",
+    "@hapi/hapi": "^19.1.1",
     "@hapi/inert": "^5.2.2",
     "aws-sdk": "^2.558.0",
     "dotenv": "^8.2.0",
